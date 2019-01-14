@@ -1,0 +1,468 @@
+\documentclass[a4paper,10pt]{scrartcl}
+\usepackage[ngerman]{babel}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage{blindtext}
+\usepackage{tabularx}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath}
+\usepackage{tikz}
+\usetikzlibrary{arrows,shapes,positioning,shadows,trees}
+\usepackage{forest}
+\usetikzlibrary{shadows,arrows.meta}
+\usepackage{rotating}
+\usepackage{geometry}
+\usepackage{graphicx}
+\usepackage{acronym}
+\usepackage{amsfonts}
+\usepackage{hhline,booktabs}
+\usepackage{siunitx}
+\usepackage{amssymb}% http://ctan.org/pkg/amssymb
+\usepackage{pifont}% http://ctan.org/pkg/pifont
+\usepackage{textcomp}
+\usepackage{eurosym}
+\usepackage{forest}
+\usepackage{tikz-qtree}
+\usetikzlibrary{arrows.meta, shapes.geometric, calc, shadows}
+\usepackage{booktabs}
+\usepackage{dcolumn}
+\makeatletter
+\newcolumntype{d}[1]{>{\DC@{,}{,}{#1}}l<{\DC@end}}
+\makeatother
+\usetikzlibrary{positioning}
+
+\usepackage{varwidth}
+\newcommand\Umbruch[2][3cm]{\begin{varwidth}{#1}\centering#2\end{varwidth}}
+\newcommand\Absatz[2][12cm]{\begin{varwidth}{#1}\flushleft#2\end{varwidth}}
+
+\tikzset{
+  basic/.style  = {draw, text width=2cm, drop shadow, font=\sffamily, rectangle},
+  root/.style   = {basic, rounded corners=2pt, thin, align=center,
+                   fill=green!30},
+  level 2/.style = {basic, rounded corners=4pt, thin,align=center, fill=green!60,
+                   text width=9em},
+  level 3/.style = {basic, thin, align=left, fill=pink!60, text width=8em}
+}
+\textwidth158mm
+\begin{document}
+
+\title{Studienarbeit \vspace{50px} \hfill \\  Projekt TAV  \hfill \\  \vspace{50px} 
+Tracking von Fahrzeugen zur automatischen Verkehrsüberwachung \hfill \\ \hfill \\
+\hfill \\ 
+\begin{center}
+\includegraphics[width=10cm]{picture/hs_albsig_logo}
+\end{center}
+\hfill \\  \vspace{50px}
+}
+
+
+\author{Domenico Milazzo Matrikelnummer 86217 \hfill \\ Betreuer: Prof. Dr. Derk Rembold}
+\date{11.01.2019}
+\maketitle
+\clearpage
+\setcounter{page}{1}
+\tableofcontents
+\clearpage
+
+\newpage
+
+\section{Abkürzungsverzeichnis}
+\hfill \\
+\begin{acronym}[Bash]
+ \acro{AV}{Allgemeine Versicherung}
+ \acro{EZ}{Echtzeitsysteme GmbH}
+ \acro{LTE}{Long Term Evolution}
+ \acro{GPS}{Global Positioning System}
+ \acro{PoC}{Proof of Concept}
+ \acro{PbD}{Pay by Drive}
+\end{acronym}
+
+\section{Firmenbeschreibung}
+EZ ist ein mittelständisches Unternehmen mit 310 Mitarbeiter, das sich auf Automatisierungsaufgaben und Fahrzeugtechnik spezialisiert. EZ ist nach ISO 9000 zertifiziert und richtet sich nach den notwendigen Prozessen
+
+\section{Projektinhalt}
+EZ wird für AV ein Tracking System für Fahrzeuge, deren Fahrzeughalter bei der AV versichert sind, entwickeln und ausliefern. Dabei bekommt jedes Fahrzeug ein Tracking-Gerät (\glqq TRAK\grqq{}) unter dem Armaturenbrett installiert. Die Stromversorgung wird aus der Fahrzeugelektrik entnommen. \\
+Das Tracking-Gerät \glqq TRAK\grqq{} der Firma EZ hat eine LTE/LTE+ Komponente (4G), womit Daten über das mobile Telefonnetz per Internetverbindung übertragen werden kann. Ein GPS System in der Tracking Box empfängt stets die Position des Fahrzeugs und diese wird sekündlich gespeichert. Das Tracking-Gerät detektiert stets die Empfangsqualität des Telefonnetzes und schickt bei Bedarf die gespeicherten Daten gebündelt an einen zentralen Server  \glqq TRAKSERV\grqq{} über die Internetverbindung. \\
+Der zentrale Server speichert die Daten und zeichnet für jede Fahrt eine Fahrtroute als Bild ab. Diese wird einer Landkarte überlagert. Weiter werden aus den GPS Positionen die Geschwindigkeiten des Fahrzeugs ermittelt und mit die von AV bereitgestellten Daten mit Straßennamen und Geschwindigkeitsbeschränkungen verglichen. Dadurch will AV den Fahrzeugbesitzer, die sich an Geschwindigkeitsregeln halten, durch günstige Versicherungsprämien belohnen.
+
+
+\subsection{Projektbeschreibung}
+In einem ersten Schritt soll ein  \glqq Proof of Concept \grqq{} gestartet werden. Hier werden 20 Fahrzeuge von AV ausgesucht und zur Verfügung gestellt. EZ baut die Tracking-Geräte in die Fahrzeuge ein und lässt diesen \glqq Proof of Concept\grqq{} für sechs Wochen laufen. Alle Fahrzeuge kommen aus der Gegend von Zürich. \\
+Nach Ablauf des  \glqq Proof of Concepts\grqq{} sollen die Tracking-Geräte ausgebaut werden und es wird ein Review und Lessons Learned Meeting zwischen AV und EZ geben, um Verbesserungen zu adressieren. Diese sollen dann im Folgemonat ins System eingebaut werden.
+Nachdem die Verbesserungen eingeführt worden sind, startet der Pilot. Hier werden 1000 Fahrzeuge innerhalb der ganzen Schweiz von AV ausgesucht. EZ baut die Tracking-Geräte in die Fahrzeuge ein und führt den Piloten für sechs Monate aus. Der Ausbau der Geräte vom Piloten soll im Rahmen dieses Projekts nicht stattfinden.
+
+\subsection{Projektziel}
+EZ baut für 1000 Fahrzeuge und 20 verschiedene Fahrzeugtypen die Tracking-Geräte in die Fahrzeuge ein, diese sind in der ganzen Schweiz verteilt und führt den Piloten für sechs Monate aus. Der Ausbau der Geräte vom Piloten soll im Rahmen dieses Projekts nicht stattfinden.
+
+
+\newgeometry{left=3cm,bottom=3cm}
+
+\begin{sidewaysfigure}
+\section{Projektstrukturplan}
+\vskip 1cm
+
+\begin{tikzpicture}[
+  level 1/.style={sibling distance=38mm},
+  edge from parent/.style={->,draw},
+  >=latex]
+
+% root of the the initial tree, level 1
+\node[root] {TAV}
+% The first level, as children of the initial tree
+  child {node[level 2] (c1) {Projektmanagement}}
+  child {node[level 2] (c2) {Software}}
+  child {node[level 2] (c3) {Hardware}}
+  child {node[level 2] (c4) {Testing}}
+  child {node[level 2] (c5) {Integration}}
+  child {node[level 2] (c6) {Personal}};
+
+% The second level, relatively positioned nodes
+\begin{scope}[every node/.style={level 3}]
+\node [below of = c1, xshift=8pt] (c11) {Planung};
+\node [below of = c11] (c12) {Kommunikation};
+\node [below of = c12] (c13) {Datenschutz};
+\node [below of = c13] (c14) {Verträge mit Werkstätten};
+\node [below of = c14] (c15) {Ausführung};
+\node [below of = c15] (c16) {TRAK gesetliche Vorgaben};
+\node [below of = c16] (c17) {LTE Verträge};
+\node [below of = c17] (c18) {Stakeholderanalyse};
+
+\node [below of = c2, xshift=8pt] (c21) {Server skalieren};
+\node [below of = c21] (c22) {PoC Änderungen};
+\node [below of = c22] (c23) {Schnittstelle von TRAKSERV zu AV};
+\node [below of = c23] (c24) {Reviews \& BügFix};
+\node [below of = c24] (c25) {Dokumentation};
+\node [below of = c25] (c26) {Webseite für AV};
+\node [below of = c25] (c26) {Qualitätskriterien nachweisen};
+\node [below of = c26] (c27) {Fehlerroutinen};
+\node [below of = c27] (c28) {Analyse der Daten};
+\node [below of = c28] (c29) {PbD Erweiterung};
+\node [below of = c29] (c210) {Sprachmodule};
+
+\node [below of = c3, xshift=8pt] (c31) {Beschaffung TRAK};
+\node [below of = c31] (c32) {Einbau TRAK};
+\node [below of = c32] (c33) {Server Beschaffung};
+\node [below of = c33] (c34) {Batterie Problem};
+\node [below of = c34] (c35) {Dokumentation};
+\node [below of = c35] (c36) {Qualitätskriterien umsetzen};
+
+\node [below of = c4, xshift=8pt] (c41) {Unit Test};
+\node [below of = c41] (c42) {Server Test};
+\node [below of = c42] (c43) {EMV Test};
+\node [below of = c43] (c44) {Batterie Test};
+\node [below of = c44] (c45) {Qualitäts Test};
+\node [below of = c45] (c46) {TRAK Validierung};
+\node [below of = c46] (c47) {TRAK verifizieren};
+
+\node [below of = c5, xshift=8pt] (c51) {Server installieren};
+\node [below of = c51] (c52) {System Test};
+\node [below of = c52] (c53) {Workshops für Werkstätten};
+\node [below of = c53] (c54) {Fehlerbehandlung};
+\node [below of = c54] (c55) {Webschnittstelle zu AV};
+
+\node [below of = c6, xshift=8pt] (c61) {Schulung TARKSERV};
+\node [below of = c61] (c62) {Schulung Kundendienst};
+\node [below of = c62] (c63) {Ausschreibungen};
+\end{scope}
+
+% lines from each level 1 node to every one of its "children"
+\foreach \value in {1,...,8}
+  \draw[->] (c1.180) |- (c1\value.west);
+
+\foreach \value in {1,...,10}
+  \draw[->] (c2.180) |- (c2\value.west);
+
+\foreach \value in {1,...,6}
+  \draw[->] (c3.180) |- (c3\value.west);
+
+\foreach \value in {1,...,7}
+  \draw[->] (c4.180) |- (c4\value.west);
+
+\foreach \value in {1,...,5}
+  \draw[->] (c5.180) |- (c5\value.west);
+  
+\foreach \value in {1,...,3}
+  \draw[->] (c6.180) |- (c6\value.west);
+
+\end{tikzpicture}
+\end{sidewaysfigure}
+\restoregeometry
+\clearpage
+
+\subsection{Aktivitätenliste}
+
+\subsubsection{Proof of Concept}
+
+\paragraph{Arbeitspaket XXX}
+Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam
+\hfill \vspace{5mm}
+\begin{tabular}{llrrrr} 
+\toprule
+\textbf{Arbeitspaket} & \textbf{Beschreibung} & \textbf{Verantwortlich} & \textbf{Start} & \textbf{Ende} & \textbf{Dauer}\\
+\midrule 
+\midrule
+Arbeitspaket XXX  & Lorem ipsum dolor sit amet & 00000 & 00000 & 00000 & 00000\\
+\bottomrule
+\end{tabular}
+
+%next
+
+
+\vspace{5mm}
+\subsubsection{Pilot}
+\paragraph{Arbeitspaket XXX}
+Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam
+\hfill \vspace{5mm}
+\begin{tabular}{llrrrr} 
+\toprule
+\textbf{Arbeitspaket} & \textbf{Beschreibung} & \textbf{Verantwortlich} & \textbf{Start} & \textbf{Ende} & \textbf{Dauer}\\ 
+\midrule 
+\midrule
+Arbeitspaket XXX  & Lorem ipsum dolor sit amet & 00000 & 00000 & 00000 & 00000\\
+\bottomrule
+\end{tabular}
+
+%next
+\vspace{5mm}
+
+\section{Zeitplan}
+\begin{tabular}{lrrr} 
+\toprule
+\textbf{Phase} & \textbf{Start} & \textbf{Ende} & \textbf{Dauer}\\ 
+\midrule 
+\midrule
+\textbf{Vorbereitung} & 00000 & 00000 & 00000\\
+\textbf{Proof of Concept} & 00000 & 00000 & 00000\\
+\textbf{Pilot} & 00000 & 00000 & 00000\\
+\midrule
+\textbf{Gesamt} &  &  & 00000\\
+\bottomrule
+\end{tabular}
+
+\subsection{Meilensteine}
+\begin{tabular}{llr} 
+\toprule
+\textbf{\#} & \textbf{Meilenstein} & \textbf{Datum}\\ 
+\midrule 
+\midrule
+1  & Meilenstein XXX & 01.01.2019\\
+\midrule
+1  & Meilenstein XXX & 01.01.2019\\
+\bottomrule
+\end{tabular}
+
+%next
+\vspace{5mm}
+
+\subsection{Rangfolgediagramm}
+Hallo
+
+\subsection{GANT-Diagramm}
+Hallo
+
+\subsection{PERT-Diagramm}
+Hallo
+
+\section{Qualitätsmanagement}
+Hallo
+
+\subsection{Checkliste}
+Hallo
+
+\subsection{Metriken zur Messung der Qualität}
+Hallo
+
+\subsection{Qualitätsprozesse}
+Hallo
+
+\section{Organigram}
+Die Projektorganisation und somit die Kommunikationsbeziehungen wird folgendermaßen stattfinden.
+\hfill \vspace{5mm}
+\tikzset{font=\small,
+edge from parent fork down,
+level distance=1.75cm,
+every node/.style=
+    {top color=white,
+    bottom color=blue!25,
+    rectangle,rounded corners,
+    minimum height=8mm,
+    draw=blue!75,
+    very thick,
+    drop shadow,
+    align=center,
+    text depth = 0pt
+    },
+edge from parent/.style=
+    {draw=blue!50,
+    thick
+    }}
+
+{\centering
+\begin{tikzpicture}
+\Tree
+[.{Management EZ}
+	[.{\Umbruch{Projektleiter TAV Domenico Milazzo \linebreak}}
+        [.{Team EZ}
+            [.{John, Daniel}  [.{\Umbruch{Schulung TARKSERV \linebreak}} ] ]
+            [.{Bloomberg, Olaf} [.{\Umbruch{Aufgabe XXX \linebreak}} ] ]
+            [.{Keit, Kerstin} [.{\Umbruch{Aufgabe XXX \linebreak}} ] ]
+            [.{Rusch, Gerorg} [.{\Umbruch{Aufgabe XXX \linebreak}} ] ]
+            [.{Scoda, Kaya} [.{\Umbruch{Aufgabe XXX \linebreak}} ] ] ]
+        [.{AV}
+            [.{Uris Katt} ]
+    	]
+	]
+]
+\end{tikzpicture}
+\par}
+\section{Ressourcenplan}
+Hallo
+
+\section{Personalplan}
+Hallo
+
+\subsection{Schulungen}
+Hallo
+
+\subsection{Ausschreibungen}
+Hallo
+
+\section{Beschaffung}
+Hallo
+
+\section{Kostenplan}
+Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam
+
+\subsection{Personalkosten}
+Die Stundensätze der Löhne \& Gehälter werden anhand der Arbeitstage im Jahr 2019 berechnet. Bei EZ wird 5 Tage pro Woche gearbeitet á 8 Stunden.
+\hfill \vspace{5mm}
+\begin{tabular}{lrrrr} 
+\toprule
+\textbf{Name} & \textbf{Jahreslohn (\euro{})} & \textbf{Stundenlohn (\euro{})} & \textbf{Stunden (h)} & \textbf{Lohnkosten (\euro{})}\\ 
+\midrule 
+Milazzo, Domenico  & 00000 & 00000 & 00000 & 00000\\
+John, Daniel  & 00000 & 00000 & 00000 & 00000\\
+Bloomberg, Olaf  & 00000 & 00000 & 00000 & 00000\\
+Keit, Kerstin  & 00000 & 00000 & 00000 & 00000\\
+Rusch, Gerorg & 00000 & 00000 & 00000 & 00000\\
+Scoda, Kaya & 00000 & 00000 & 00000 & 00000\\
+Unbekannt & 00000 & 00000 & 00000 & 00000\\
+\midrule 
+\midrule 
+Gesamtkosten & 00000 & 00000 & 00000 & 00000\\ 
+\bottomrule
+\end{tabular}
+
+\subsection{Beschaffungskosten}
+Hallo
+
+\subsection{Risikoplan}
+Hallo
+
+\subsubsection{Annahmen}
+Hallo
+
+\subsubsection{Risikomatrix}
+Hallo
+
+\subsubsection{Risikoanalyse}
+Hallo
+
+\subsubsection{Risikoreaktionsanalyse}
+Hallo
+
+\subsubsection{Risikokosten}
+Hallo
+
+\newpage
+
+\section{Kommunikationsplan}
+\subsection{Proof of Concept-Meeting}
+\begin{tabular}{ll} 
+\toprule
+\textbf{Leiter} & Domenico Milazzo\\
+\textbf{Teilnehmer}  & EZ Management, AV Uris Katt\\
+\midrule 
+\textbf{Intervall}  & einmalig\\
+\midrule 
+\textbf{Ablauf}  & {\Absatz{Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et \linebreak}}\\
+\bottomrule
+\end{tabular}
+\vspace{5mm}
+
+\subsection{Contract-Meeting}
+\begin{tabular}{ll} 
+\toprule
+\textbf{Leiter} & Domenico Milazzo\\
+\textbf{Teilnehmer}  & EZ Management, AV Uris Katt\\
+\midrule 
+\textbf{Intervall}  & einmalig\\
+\midrule 
+\textbf{Ablauf}  & {\Absatz{Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et \linebreak}}\\
+\bottomrule
+\end{tabular}
+\vspace{5mm}
+
+\subsection{Stakeholder-Meeting}
+\begin{tabular}{ll} 
+\toprule
+\textbf{Leiter} & Domenico Milazzo\\
+\textbf{Teilnehmer}  & EZ Management, AV Uris Katt\\
+\midrule 
+\textbf{Intervall}  & 4 Wochen Rhythmus\\
+\midrule 
+\textbf{Ablauf}  & {\Absatz{Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et \linebreak}}\\
+\bottomrule
+\end{tabular}
+\vspace{5mm}
+
+\subsection{Status-Meeting}
+\begin{tabular}{ll} 
+\toprule
+\textbf{Leiter} & Domenico Milazzo\\
+\textbf{Teilnehmer}  & Alle Mitarbeiter pro Arbeitspaket\\
+\midrule 
+\textbf{Intervall}  & Wöchentlicher Rhythmus\\
+\midrule 
+\textbf{Ablauf}  & {\Absatz{Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et \linebreak}}\\
+\bottomrule
+\end{tabular}
+
+\clearpage
+\newgeometry{left=3cm,bottom=3cm}
+\begin{sidewaysfigure}
+\subsection{Report Template}
+\begin{tabular}{llll} 
+\textbf{Asset:}\hspace{124pt} & \textbf{Responsible:}\hspace{130pt} & \textbf{Date:}\hspace{100pt} & \textbf{Signatur:}\hfill \\
+\bottomrule
+\end{tabular}
+
+\begin{center}
+\begin{tabular}{ | p{5cm} | p{7cm} | p{1.5cm} | p{7cm} |}
+    \hline
+    \textbf{Question} & \textbf{Status} & \textbf{Raiting} & \textbf{Comment} \\ \hline
+    Stakeholder are commited& & &\\[8ex] \hline
+    Work \& Schedule are predictable? & & &\\[8ex] \hline
+    Scope is realistic & & &\\[8ex] \hline
+    Risks? & & &\\[8ex] \hline
+    Problems that have arisen? & & &\\[8ex] \hline
+    Achievements since last reporting & & &\\[8ex] \hline
+\end{tabular}
+\end{center}
+\begin{tabular}{lr} 
+\toprule
+\textbf{Raiting}\\  
+\midrule 
+\textbf{Symbol} & \textbf{Definition}\\ 
+\midrule 
+\checkmark & Good\\
+\textbf{\textasciitilde} & Medium\\
+x & Bad\\ 
+\bottomrule
+\end{tabular}
+
+\end{sidewaysfigure}
+\restoregeometry
+\clearpage
+
+\end{document}
