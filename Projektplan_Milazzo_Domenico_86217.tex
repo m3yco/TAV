@@ -30,9 +30,13 @@
 \newcolumntype{d}[1]{>{\DC@{,}{,}{#1}}l<{\DC@end}}
 \makeatother
 \usetikzlibrary{positioning}
+\usepackage{mathtools, nccmath}
 
+
+\DeclarePairedDelimiter{\nint}\lfloor\rceil
 \usepackage{varwidth}
 \newcommand\Umbruch[2][3cm]{\begin{varwidth}{#1}\centering#2\end{varwidth}}
+\newcommand\Zelle[2][2cm]{\begin{varwidth}{#1}\flushleft#2\end{varwidth}}
 \newcommand\Absatz[2][12cm]{\begin{varwidth}{#1}\flushleft#2\end{varwidth}}
 
 \tikzset{
@@ -191,31 +195,47 @@ EZ baut für 1000 Fahrzeuge und 20 verschiedene Fahrzeugtypen die Tracking-Gerä
 
 \subsection{Aktivitätenliste}
 
-\subsubsection{Proof of Concept}
+\subsection{Proof of Concept}
 
-\paragraph{Arbeitspaket XXX}
+\subsubsection{Arbeitspaket XXX}
 Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam
 \hfill \vspace{5mm}
 \begin{tabular}{llrrrr} 
 \toprule
-\textbf{Arbeitspaket} & \textbf{Beschreibung} & \textbf{Verantwortlich} & \textbf{Start} & \textbf{Ende} & \textbf{Dauer}\\
+\textbf{Asset} & \textbf{Beschreibung} & \textbf{Verantwortlich} & \textbf{Start} & \textbf{Ende} & \textbf{Dauer}\\
 \midrule 
 \midrule
 Arbeitspaket XXX  & Lorem ipsum dolor sit amet & 00000 & 00000 & 00000 & 00000\\
 \bottomrule
 \end{tabular}
+\vspace{5mm}
+
+\subsubsection{Verträge mit Werkstätten}
+Es sollen Vertragswerkstätten bestimmt werden welche die TRAK Geräte in allen gewählten Fahrzeugtypen installieren. Es werden Verträge mit Werkstätten mit höherer Population abgeschlossen diese sind \textbf{Basel}, \textbf{Bern}, \textbf{Genf}, \textbf{Luzern}, \textbf{Zürich} und es sollen nach der Gesamtfläche der Schweiz im Umkreis von 50 km einen Vertragspartner gefunden werden.
+\begin{equation}
+Anzahl_{Werkstätten} = \nint[\Big]{\frac{A_{Schweiz}}{Umkreis}} = \nint[\Big]{\frac{41285 km^2}{(50 km)^2 \cdot \pi}} = 5
+\end{equation}
+Dadurch ergeben sich Verträge mit insgesamt \textbf{10} Werkstätten die alle Standards und Normen für die Installation der TRAK Geräte durchführen sollen. 
+\hfill \vspace{5mm}
+\begin{tabular}{llrrrr} 
+\toprule
+\textbf{Asset} & \textbf{Beschreibung} & \textbf{Verantwortlich} & \textbf{Start} & \textbf{Ende} & \textbf{Dauer}\\
+\midrule 
+\midrule
+01  & {\Zelle Vertragswerkstätten bestimmen \linebreak} & Domenico Milazzo & 01.01.2019 & 31.01.2019 & 30\\
+\bottomrule
+\end{tabular}
 
 %next
 
-
 \vspace{5mm}
-\subsubsection{Pilot}
-\paragraph{Arbeitspaket XXX}
+\subsection{Pilot}
+\subsubsection{Arbeitspaket XXX}
 Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam
 \hfill \vspace{5mm}
 \begin{tabular}{llrrrr} 
 \toprule
-\textbf{Arbeitspaket} & \textbf{Beschreibung} & \textbf{Verantwortlich} & \textbf{Start} & \textbf{Ende} & \textbf{Dauer}\\ 
+\textbf{Asset} & \textbf{Beschreibung} & \textbf{Verantwortlich} & \textbf{Start} & \textbf{Ende} & \textbf{Dauer}\\ 
 \midrule 
 \midrule
 Arbeitspaket XXX  & Lorem ipsum dolor sit amet & 00000 & 00000 & 00000 & 00000\\
@@ -301,15 +321,15 @@ edge from parent/.style=
 \begin{tikzpicture}
 \Tree
 [.{Management EZ}
-	[.{\Umbruch{Projektleiter TAV Domenico Milazzo \linebreak}}
+	[.{\Umbruch{Projektleiter TAV Milazzo, Domenico \linebreak}}
         [.{Team EZ}
             [.{John, Daniel}  [.{\Umbruch{Schulung TARKSERV \linebreak}} ] ]
             [.{Bloomberg, Olaf} [.{\Umbruch{Aufgabe XXX \linebreak}} ] ]
             [.{Keit, Kerstin} [.{\Umbruch{Aufgabe XXX \linebreak}} ] ]
             [.{Rusch, Gerorg} [.{\Umbruch{Aufgabe XXX \linebreak}} ] ]
-            [.{Scoda, Kaya} [.{\Umbruch{Aufgabe XXX \linebreak}} ] ] ]
+            [.{Scoda, Kaya} [.{\Umbruch{Aufgabe XXX \linebreak}} ] ] ]        
         [.{AV}
-            [.{Uris Katt} ]
+            [.{Uris, Katt} ] ]
     	]
 	]
 ]

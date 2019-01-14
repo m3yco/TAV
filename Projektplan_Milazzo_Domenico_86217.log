@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.19 (MiKTeX 2.9.6930 64-bit) (preloaded format=pdflatex 2019.1.14)  14 JAN 2019 22:32
+This is pdfTeX, Version 3.14159265-2.6-1.40.19 (MiKTeX 2.9.6930 64-bit) (preloaded format=pdflatex 2019.1.14)  14 JAN 2019 23:46
 entering extended mode
 **./Projektplan_Milazzo_Domenico_86217.tex
 (Projektplan_Milazzo_Domenico_86217.tex
@@ -1409,36 +1409,76 @@ qtree.tex"
 ("C:\Users\domen\AppData\Local\Programs\MiKTeX 2.9\tex/latex/tools\dcolumn.sty"
 Package: dcolumn 2014/10/28 v1.06 decimal alignment package (DPC)
 )
+("C:\Users\domen\AppData\Local\Programs\MiKTeX 2.9\tex/latex/mathtools\mathtool
+s.sty"
+Package: mathtools 2018/01/08 v1.21 mathematical typesetting tools
+
+("C:\Users\domen\AppData\Local\Programs\MiKTeX 2.9\tex/latex/tools\calc.sty"
+Package: calc 2017/05/25 v4.3 Infix arithmetic (KKT,FJ)
+\calc@Acount=\count357
+\calc@Bcount=\count358
+\calc@Adimen=\dimen321
+\calc@Bdimen=\dimen322
+\calc@Askip=\skip74
+\calc@Bskip=\skip75
+LaTeX Info: Redefining \setlength on input line 80.
+LaTeX Info: Redefining \addtolength on input line 81.
+\calc@Ccount=\count359
+\calc@Cskip=\skip76
+)
+("C:\Users\domen\AppData\Local\Programs\MiKTeX 2.9\tex/latex/mathtools\mhsetup.
+sty"
+Package: mhsetup 2017/03/31 v1.3 programming setup (MH)
+)
+LaTeX Info: Thecontrolsequence`\('isalreadyrobust on input line 129.
+LaTeX Info: Thecontrolsequence`\)'isalreadyrobust on input line 129.
+LaTeX Info: Thecontrolsequence`\['isalreadyrobust on input line 129.
+LaTeX Info: Thecontrolsequence`\]'isalreadyrobust on input line 129.
+\g_MT_multlinerow_int=\count360
+\l_MT_multwidth_dim=\dimen323
+\origjot=\skip77
+\l_MT_shortvdotswithinadjustabove_dim=\dimen324
+\l_MT_shortvdotswithinadjustbelow_dim=\dimen325
+\l_MT_above_intertext_sep=\dimen326
+\l_MT_below_intertext_sep=\dimen327
+\l_MT_above_shortintertext_sep=\dimen328
+\l_MT_below_shortintertext_sep=\dimen329
+)
+("C:\Users\domen\AppData\Local\Programs\MiKTeX 2.9\tex/latex/ncctools\nccmath.s
+ty"
+Package: nccmath 2006/01/20 v1.3 Additional Math Commands (NCC)
+\NCC@fracrulewidth=\dimen330
+)
 ("C:\Users\domen\AppData\Local\Programs\MiKTeX 2.9\tex/latex/varwidth\varwidth.
 sty"
 Package: varwidth 2009/03/30 ver 0.92;  Variable-width minipages
 \@vwid@box=\box90
-\sift@deathcycles=\count357
-\@vwid@loff=\dimen321
-\@vwid@roff=\dimen322
+\sift@deathcycles=\count361
+\@vwid@loff=\dimen331
+\@vwid@roff=\dimen332
 ) (Projektplan_Milazzo_Domenico_86217.aux)
 \openout1 = `Projektplan_Milazzo_Domenico_86217.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 47.
-LaTeX Font Info:    ... okay on input line 47.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 47.
-LaTeX Font Info:    ... okay on input line 47.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 47.
-LaTeX Font Info:    ... okay on input line 47.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 47.
-LaTeX Font Info:    ... okay on input line 47.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 47.
-LaTeX Font Info:    ... okay on input line 47.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 47.
-LaTeX Font Info:    ... okay on input line 47.
-LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 47.
-LaTeX Font Info:    Try loading font information for TS1+cmr on input line 47.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 51.
+LaTeX Font Info:    ... okay on input line 51.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 51.
+LaTeX Font Info:    ... okay on input line 51.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 51.
+LaTeX Font Info:    ... okay on input line 51.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 51.
+LaTeX Font Info:    ... okay on input line 51.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 51.
+LaTeX Font Info:    ... okay on input line 51.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 51.
+LaTeX Font Info:    ... okay on input line 51.
+LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 51.
+LaTeX Font Info:    Try loading font information for TS1+cmr on input line 51.
 
 ("C:\Users\domen\AppData\Local\Programs\MiKTeX 2.9\tex/latex/base\ts1cmr.fd"
 File: ts1cmr.fd 2014/09/29 v2.5h Standard LaTeX font definitions
 )
-LaTeX Font Info:    ... okay on input line 47.
-LaTeX Font Info:    Try loading font information for T1+lmr on input line 47.
+LaTeX Font Info:    ... okay on input line 51.
+LaTeX Font Info:    Try loading font information for T1+lmr on input line 51.
 
 ("C:\Users\domen\AppData\Local\Programs\MiKTeX 2.9\tex/latex/lm\t1lmr.fd"
 File: t1lmr.fd 2009/10/30 v1.6 Font defs for Latin Modern
@@ -1447,16 +1487,16 @@ ABD: EveryShipout initializing macros
 ("C:\Users\domen\AppData\Local\Programs\MiKTeX 2.9\tex/context/base\supp-pdf.mk
 ii"
 [Loading MPS to PDF converter (version 2006.09.02).]
-\scratchcounter=\count358
-\scratchdimen=\dimen323
+\scratchcounter=\count362
+\scratchdimen=\dimen333
 \scratchbox=\box91
-\nofMPsegments=\count359
-\nofMParguments=\count360
+\nofMPsegments=\count363
+\nofMParguments=\count364
 \everyMPshowfont=\toks56
-\MPscratchCnt=\count361
-\MPscratchDim=\dimen324
-\MPnumerator=\count362
-\makeMPintoPDFobject=\count363
+\MPscratchCnt=\count365
+\MPscratchDim=\dimen334
+\MPnumerator=\count366
+\makeMPintoPDFobject=\count367
 \everyMPtoPDFconversion=\toks57
 )
 ("C:\Users\domen\AppData\Local\Programs\MiKTeX 2.9\tex/latex/oberdiek\epstopdf-
@@ -1555,55 +1595,55 @@ Dictionary: translator-basic-dictionary, Language: English
 breviations.cfg"
 File: siunitx-abbreviations.cfg 2017/11/26 v2.7k siunitx: Abbreviated units
 )
-LaTeX Font Info:    Try loading font information for OT1+lmr on input line 47.
+LaTeX Font Info:    Try loading font information for OT1+lmr on input line 51.
 
 ("C:\Users\domen\AppData\Local\Programs\MiKTeX 2.9\tex/latex/lm\ot1lmr.fd"
 File: ot1lmr.fd 2009/10/30 v1.6 Font defs for Latin Modern
 )
-LaTeX Font Info:    Try loading font information for OML+lmm on input line 47.
+LaTeX Font Info:    Try loading font information for OML+lmm on input line 51.
 
 ("C:\Users\domen\AppData\Local\Programs\MiKTeX 2.9\tex/latex/lm\omllmm.fd"
 File: omllmm.fd 2009/10/30 v1.6 Font defs for Latin Modern
 )
-LaTeX Font Info:    Try loading font information for OMS+lmsy on input line 47.
+LaTeX Font Info:    Try loading font information for OMS+lmsy on input line 51.
 
 
 ("C:\Users\domen\AppData\Local\Programs\MiKTeX 2.9\tex/latex/lm\omslmsy.fd"
 File: omslmsy.fd 2009/10/30 v1.6 Font defs for Latin Modern
 )
-LaTeX Font Info:    Try loading font information for OMX+lmex on input line 47.
+LaTeX Font Info:    Try loading font information for OMX+lmex on input line 51.
 
 
 ("C:\Users\domen\AppData\Local\Programs\MiKTeX 2.9\tex/latex/lm\omxlmex.fd"
 File: omxlmex.fd 2009/10/30 v1.6 Font defs for Latin Modern
 )
 LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <10> on input line 47.
+(Font)              <10> on input line 51.
 LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <7> on input line 47.
+(Font)              <7> on input line 51.
 LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <5> on input line 47.
-LaTeX Font Info:    Try loading font information for U+msa on input line 47.
+(Font)              <5> on input line 51.
+LaTeX Font Info:    Try loading font information for U+msa on input line 51.
 
 ("C:\Users\domen\AppData\Local\Programs\MiKTeX 2.9\tex/latex/amsfonts\umsa.fd"
 File: umsa.fd 2013/01/14 v3.01 AMS symbols A
 )
-LaTeX Font Info:    Try loading font information for U+msb on input line 47.
+LaTeX Font Info:    Try loading font information for U+msb on input line 51.
 ("C:\Users\domen\AppData\Local\Programs\MiKTeX 2.9\tex/latex/amsfonts\umsb.fd"
 File: umsb.fd 2013/01/14 v3.01 AMS symbols B
 )
-LaTeX Font Info:    Try loading font information for OT1+lmss on input line 47.
+LaTeX Font Info:    Try loading font information for OT1+lmss on input line 51.
 
 ("C:\Users\domen\AppData\Local\Programs\MiKTeX 2.9\tex/latex/lm\ot1lmss.fd"
 File: ot1lmss.fd 2009/10/30 v1.6 Font defs for Latin Modern
 )
-LaTeX Font Info:    Try loading font information for OT1+lmtt on input line 47.
+LaTeX Font Info:    Try loading font information for OT1+lmtt on input line 51.
 
 
 ("C:\Users\domen\AppData\Local\Programs\MiKTeX 2.9\tex/latex/lm\ot1lmtt.fd"
 File: ot1lmtt.fd 2009/10/30 v1.6 Font defs for Latin Modern
 )
-LaTeX Font Info:    Try loading font information for T1+lmss on input line 62.
+LaTeX Font Info:    Try loading font information for T1+lmss on input line 66.
 
 ("C:\Users\domen\AppData\Local\Programs\MiKTeX 2.9\tex/latex/lm\t1lmss.fd"
 File: t1lmss.fd 2009/10/30 v1.6 Font defs for Latin Modern
@@ -1611,22 +1651,22 @@ File: t1lmss.fd 2009/10/30 v1.6 Font defs for Latin Modern
 <picture/hs_albsig_logo.jpg, id=28, 72.27pt x 19.15155pt>
 File: picture/hs_albsig_logo.jpg Graphic file (type jpg)
 <use picture/hs_albsig_logo.jpg>
-Package pdftex.def Info: picture/hs_albsig_logo.jpg  used on input line 62.
+Package pdftex.def Info: picture/hs_albsig_logo.jpg  used on input line 66.
 (pdftex.def)             Requested size: 284.52756pt x 75.42038pt.
 LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <14.4> on input line 62.
+(Font)              <14.4> on input line 66.
 
 [1
 
 
 {C:/Users/domen/AppData/Local/MiKTeX/2.9/pdftex/config/pdftex.map} <./picture/h
-s_albsig_logo.jpg>] (Projektplan_Milazzo_Domenico_86217.toc)
+s_albsig_logo.jpg>] (Projektplan_Milazzo_Domenico_86217.toc [1
+
+])
 \tf@toc=\write5
 \openout5 = `Projektplan_Milazzo_Domenico_86217.toc'.
 
- [1
-
-] [2] [3
+ [2] [3
 
 ]
 [4]
@@ -1662,15 +1702,20 @@ s_albsig_logo.jpg>] (Projektplan_Milazzo_Domenico_86217.toc)
 * \@reversemarginfalse
 * (1in=72.27pt=25.4mm, 1cm=28.453pt)
 
- [5] [6
+ [5]
+
+LaTeX Warning: Command \" invalid in math mode on input line 216.
+
+[6
 
 
 
 ]
 LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <9> on input line 316.
+(Font)              <9> on input line 335.
 LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <6> on input line 316.
+(Font)              <6> on input line 335.
+Missing character: There is no ] in font nullfont!
  [7] [8] [9] [10]
 *geometry* verbose mode - [ newgeometry ] result:
 * driver: pdftex
@@ -1706,28 +1751,37 @@ LaTeX Font Info:    External font `lmex10' loaded for size
 
  [11] (Projektplan_Milazzo_Domenico_86217.aux) ) 
 Here is how much of TeX's memory you used:
- 41023 strings out of 492946
- 924019 string characters out of 3126266
- 1093531 words of memory out of 3000000
- 44331 multiletter control sequences out of 15000+200000
+ 41673 strings out of 492946
+ 935250 string characters out of 3126266
+ 1108821 words of memory out of 3000000
+ 44967 multiletter control sequences out of 15000+200000
  602237 words of font info for 80 fonts, out of 3000000 for 9000
  1141 hyphenation exceptions out of 8191
- 64i,12n,86p,9142b,1230s stack positions out of 5000i,500n,10000p,200000b,50000s
+ 64i,12n,86p,9142b,1239s stack positions out of 5000i,500n,10000p,200000b,50000s
 {C:/Users/domen/AppData/Local/P
-rograms/MiKTeX 2.9/fonts/enc/dvips/lm/lm-ec.enc}<C:/Users/domen/AppData/Local/P
-rograms/MiKTeX 2.9/fonts/type1/public/eurosym/feybr10.pfb><C:/Users/domen/AppDa
-ta/Local/Programs/MiKTeX 2.9/fonts/type1/public/lm/lmbx10.pfb><C:/Users/domen/A
-ppData/Local/Programs/MiKTeX 2.9/fonts/type1/public/lm/lmr10.pfb><C:/Users/dome
-n/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/public/lm/lmr12.pfb><C:/Users/d
-omen/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/public/lm/lmr9.pfb><C:/Users
-/domen/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/public/lm/lmss10.pfb><C:/U
-sers/domen/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/public/lm/lmssbx10.pfb
-><C:/Users/domen/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/public/amsfonts/
-symbols/msam10.pfb>
-Output written on Projektplan_Milazzo_Domenico_86217.pdf (12 pages, 243350 byte
+rograms/MiKTeX 2.9/fonts/enc/dvips/lm/lm-ec.enc}{C:/Users/domen/AppData/Local/P
+rograms/MiKTeX 2.9/fonts/enc/dvips/lm/lm-mathsy.enc}{C:/Users/domen/AppData/Loc
+al/Programs/MiKTeX 2.9/fonts/enc/dvips/lm/lm-mathex.enc}{C:/Users/domen/AppData
+/Local/Programs/MiKTeX 2.9/fonts/enc/dvips/lm/lm-rm.enc}{C:/Users/domen/AppData
+/Local/Programs/MiKTeX 2.9/fonts/enc/dvips/lm/lm-mathit.enc}<C:/Users/domen/App
+Data/Local/Programs/MiKTeX 2.9/fonts/type1/public/eurosym/feybr10.pfb><C:/Users
+/domen/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/public/lm/lmbx10.pfb><C:/U
+sers/domen/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/public/lm/lmex10.pfb><
+C:/Users/domen/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/public/lm/lmmi10.p
+fb><C:/Users/domen/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/public/lm/lmmi
+7.pfb><C:/Users/domen/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/public/lm/l
+mr10.pfb><C:/Users/domen/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/public/l
+m/lmr12.pfb><C:/Users/domen/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/publi
+c/lm/lmr7.pfb><C:/Users/domen/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/pub
+lic/lm/lmr9.pfb><C:/Users/domen/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/p
+ublic/lm/lmss10.pfb><C:/Users/domen/AppData/Local/Programs/MiKTeX 2.9/fonts/typ
+e1/public/lm/lmssbx10.pfb><C:/Users/domen/AppData/Local/Programs/MiKTeX 2.9/fon
+ts/type1/public/lm/lmsy10.pfb><C:/Users/domen/AppData/Local/Programs/MiKTeX 2.9
+/fonts/type1/public/amsfonts/symbols/msam10.pfb>
+Output written on Projektplan_Milazzo_Domenico_86217.pdf (12 pages, 284675 byte
 s).
 PDF statistics:
- 104 PDF objects out of 1000 (max. 8388607)
+ 130 PDF objects out of 1000 (max. 8388607)
  0 named destinations out of 1000 (max. 500000)
  120 words of extra memory for PDF output out of 10000 (max. 10000000)
 
