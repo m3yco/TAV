@@ -31,26 +31,80 @@
 \makeatother
 \usetikzlibrary{positioning}
 \usepackage{mathtools, nccmath}
+\usepackage{adjustbox}
+\usepackage{pgfgantt}
+\usetikzlibrary{calc} 
+\usetikzlibrary{arrows.meta} 
+\usetikzlibrary{positioning}
+\usepackage{verbatim}
+\usetikzlibrary{arrows.meta}
+\usepackage{booktabs}
+\usepackage{xcolor}
+\usepackage{colortbl}
+\usepackage{longtable}
+\usepackage{ulem}
+\usepackage{amsthm}
+\usepackage{ulem}
 
+
+%gantt
+\newganttchartelement*{rresource}{
+    rresource/.style={},
+    inline=true,
+    rresource inline label node/.style={anchor=west,font=\bfseries\itshape\color{blue}},
+    rresource left shift=0ex,
+    rresource right shift=0ex
+}
+\newganttchartelement*{lresource}{ % The starred version mimics a milestone element with 2 options
+    lresource/.style={}, % Don't draw the node
+    inline=true,
+    lresource inline label node/.style={anchor=east,font=\bfseries\itshape\color{blue}},
+    lresource left shift=0ex,
+    lresource right shift=0ex
+}
+%gantt
+\makeatletter
+\newcommand{\ccell}[3][]{%
+  \kern-\fboxsep
+  \if\relax\detokenize{#1}\relax
+    \expandafter\@firstoftwo
+  \else
+    \expandafter\@secondoftwo
+  \fi
+  {\colorbox{#2}}%
+  {\colorbox[#1]{#2}}%
+  {#3}\kern-\fboxsep
+}
+\makeatother
+\definecolor{cellgray}{gray}{0.9}
+\definecolor{pastelred}{rgb}{1.0, 0.41, 0.38}
+\definecolor{celadon}{rgb}{0.67, 0.88, 0.69}
+\definecolor{corn}{rgb}{0.98, 0.93, 0.36}
+
+\newcolumntype{x}{>{\columncolor{celadon}}c}
+\newcolumntype{y}{>{\columncolor{corn}}c}
+\newcolumntype{z}{>{\columncolor{pastelred}}c}
 
 \DeclarePairedDelimiter{\nint}\lfloor\rceil
 \usepackage{varwidth}
 \newcommand\Umbruch[2][3cm]{\begin{varwidth}{#1}\centering#2\end{varwidth}}
 \newcommand\Zelle[2][2cm]{\begin{varwidth}{#1}\flushleft#2\end{varwidth}}
 \newcommand\Absatz[2][12cm]{\begin{varwidth}{#1}\flushleft#2\end{varwidth}}
+\newcommand\Kommentar[2][9.5cm]{\begin{varwidth}{#1}\flushleft#2\end{varwidth}}
+\newcommand\Risiko[2][2.5cm]{\begin{varwidth}{#1}\flushleft#2\end{varwidth}}
 
 \tikzset{
   basic/.style  = {draw, text width=2cm, drop shadow, font=\sffamily, rectangle},
   root/.style   = {basic, rounded corners=2pt, thin, align=center,
-                   fill=green!30},
-  level 2/.style = {basic, rounded corners=4pt, thin,align=center, fill=green!60,
+                   fill=red!30},
+  level 2/.style = {basic, rounded corners=4pt, thin,align=center, fill=gray!30,
                    text width=9em},
-  level 3/.style = {basic, thin, align=left, fill=pink!60, text width=8em}
+  level 3/.style = {basic, thin, align=left, fill=green!30, text width=8em}
 }
 \textwidth158mm
 \begin{document}
 
-\title{Studienarbeit \vspace{50px} \hfill \\  Projekt TAV  \hfill \\  \vspace{50px} 
+\title{Studienarbeit \vspace{50px} \hfill \\ Projektmanagement\\ Wintersemester 18/19 \vspace{20px} Projekt TAV  \hfill \\  \vspace{50px} 
 Tracking von Fahrzeugen zur automatischen Verkehrsüberwachung \hfill \\ \hfill \\
 \hfill \\ 
 \begin{center}
@@ -61,48 +115,328 @@ Tracking von Fahrzeugen zur automatischen Verkehrsüberwachung \hfill \\ \hfill 
 
 
 \author{Domenico Milazzo Matrikelnummer 86217 \hfill \\ Betreuer: Prof. Dr. Derk Rembold}
-\date{11.01.2019}
+\date{24.01.2019}
 \maketitle
+\thispagestyle{empty}
 \clearpage
-\setcounter{page}{1}
 \tableofcontents
+\thispagestyle{empty}
 \clearpage
 
 \newpage
-
-\section{Abkürzungsverzeichnis}
-\hfill \\
+\newgeometry{left=3cm,bottom=3cm,textheight=674pt}
+\paragraph{\Large{Abkürzungsverzeichnis}}
 \begin{acronym}[Bash]
  \acro{AV}{Allgemeine Versicherung}
  \acro{EZ}{Echtzeitsysteme GmbH}
  \acro{LTE}{Long Term Evolution}
  \acro{GPS}{Global Positioning System}
+ \acro{TAV}{Tracking von Fahrzeugen zur automatischen Verkehrsüberwachung}
  \acro{PoC}{Proof of Concept}
  \acro{PbD}{Pay by Drive}
+ \acro{PM}{Projektleiter von TAV Milazzo Domenico }
+ \acro{KU}{Projektleiter von AV Katt, Uris}
+ \acro{LP}{TRAKSERV Entwickler Leaver, Peter}
+ \acro{JP}{Elektrotechnikingenieur John, Daniel}
+ \acro{BO}{Informatiker B.Sc. Bloomberg, Olaf}
+ \acro{KK}{Programmiererin \& Testerin Keit, Kerstin}
+ \acro{RG}{Elektrotechniker für Autoelektronik Rusch, Georg}
+ \acro{SK}{Informatikern M.Sc. Scoda, Kaya}
+ %\acro{BL}{Programmierer Embedded Systems Borrow, Lincoln}
 \end{acronym}
 
-\section{Firmenbeschreibung}
-EZ ist ein mittelständisches Unternehmen mit 310 Mitarbeiter, das sich auf Automatisierungsaufgaben und Fahrzeugtechnik spezialisiert. EZ ist nach ISO 9000 zertifiziert und richtet sich nach den notwendigen Prozessen
-
-\section{Projektinhalt}
-EZ wird für AV ein Tracking System für Fahrzeuge, deren Fahrzeughalter bei der AV versichert sind, entwickeln und ausliefern. Dabei bekommt jedes Fahrzeug ein Tracking-Gerät (\glqq TRAK\grqq{}) unter dem Armaturenbrett installiert. Die Stromversorgung wird aus der Fahrzeugelektrik entnommen. \\
-Das Tracking-Gerät \glqq TRAK\grqq{} der Firma EZ hat eine LTE/LTE+ Komponente (4G), womit Daten über das mobile Telefonnetz per Internetverbindung übertragen werden kann. Ein GPS System in der Tracking Box empfängt stets die Position des Fahrzeugs und diese wird sekündlich gespeichert. Das Tracking-Gerät detektiert stets die Empfangsqualität des Telefonnetzes und schickt bei Bedarf die gespeicherten Daten gebündelt an einen zentralen Server  \glqq TRAKSERV\grqq{} über die Internetverbindung. \\
-Der zentrale Server speichert die Daten und zeichnet für jede Fahrt eine Fahrtroute als Bild ab. Diese wird einer Landkarte überlagert. Weiter werden aus den GPS Positionen die Geschwindigkeiten des Fahrzeugs ermittelt und mit die von AV bereitgestellten Daten mit Straßennamen und Geschwindigkeitsbeschränkungen verglichen. Dadurch will AV den Fahrzeugbesitzer, die sich an Geschwindigkeitsregeln halten, durch günstige Versicherungsprämien belohnen.
-
-
-\subsection{Projektbeschreibung}
-In einem ersten Schritt soll ein  \glqq Proof of Concept \grqq{} gestartet werden. Hier werden 20 Fahrzeuge von AV ausgesucht und zur Verfügung gestellt. EZ baut die Tracking-Geräte in die Fahrzeuge ein und lässt diesen \glqq Proof of Concept\grqq{} für sechs Wochen laufen. Alle Fahrzeuge kommen aus der Gegend von Zürich. \\
-Nach Ablauf des  \glqq Proof of Concepts\grqq{} sollen die Tracking-Geräte ausgebaut werden und es wird ein Review und Lessons Learned Meeting zwischen AV und EZ geben, um Verbesserungen zu adressieren. Diese sollen dann im Folgemonat ins System eingebaut werden.
+\section{Projektbeschreibung}
+Die Firma AV ist eine Schweizer Aktiengesellschaft. Sie ist die drittgrößte Versicherung für
+Fahrzeuge in Europa. EZ wird für AV ein Tracking System für Fahrzeuge, deren Fahrzeughalter bei der AV versichert sind, entwickeln und ausliefern. Dabei bekommt jedes Fahrzeug
+ein Tracking-Gerät „TRAK“ unter dem Armaturenbrett installiert. Die Stromversorgung
+wird aus der Fahrzeugelektrik entnommen.\\
+Das Tracking-Gerät „TRAK“ der Firma EZ hat eine LTE/LTE+ Komponente (4G), womit Daten über das mobile Telefonnetz per Internetverbindung übertragen werden kann. Ein GPS System in der Tracking Box empfängt stets die Position des Fahrzeugs und diese wird sekündlich gespeichert. Das Tracking-Gerät detektiert stets die Empfangsqualität des Telefonnetzes und schickt bei Bedarf die gespeicherten Daten gebündelt an einen zentralen Server „TRAKSERV“ über die Internetverbindung.\\
+Der zentrale Server speichert die Daten und zeichnet für jede Fahrt eine Fahrtroute als Bild ab. Diese wird einer Landkarte überlagert. Weiter werden aus den GPS Positionen die Geschwindigkeiten des Fahrzeugs ermittelt und mit die von AV bereitgestellten Daten mit Straßennamen und Geschwindigkeitsbeschränkungen verglichen. Dadurch will AV den Fahrzeugbesitzer, die sich an Geschwindigkeitsregeln halten, durch günstige Versicherungsprämien belohnen.\\
+In einem ersten Schritt soll ein „Proof of Concept“ gestartet werden. Hier werden 20 Fahrzeuge von AV ausgesucht und zur Verfügung gestellt. EZ baut die Tracking-Geräte in die Fahrzeuge ein und lässt diesen „Proof of Concept“ für sechs Wochen laufen. Alle Fahrzeuge kommen aus der Gegend von Zürich.\\
+Nach Ablauf des „Proof of Concepts“ sollen die Tracking-Geräte ausgebaut werden und es wird ein Review und Lessons Learned Meeting zwischen AV und EZ geben, um Verbesserungen zu adressieren. Diese sollen dann im Folgemonat ins System eingebaut werden.\\
 Nachdem die Verbesserungen eingeführt worden sind, startet der Pilot. Hier werden 1000 Fahrzeuge innerhalb der ganzen Schweiz von AV ausgesucht. EZ baut die Tracking-Geräte in die Fahrzeuge ein und führt den Piloten für sechs Monate aus. Der Ausbau der Geräte vom Piloten soll im Rahmen dieses Projekts nicht stattfinden.
+\setcounter{page}{1}
 
-\subsection{Projektziel}
-EZ baut für 1000 Fahrzeuge und 20 verschiedene Fahrzeugtypen die Tracking-Geräte in die Fahrzeuge ein, diese sind in der ganzen Schweiz verteilt und führt den Piloten für sechs Monate aus. Der Ausbau der Geräte vom Piloten soll im Rahmen dieses Projekts nicht stattfinden.
+%Informationen AV
+\newpage
+
+\newgeometry{left=3cm,bottom=3cm,textheight=674pt}
+\section{Projektstruktur}
+\subsection{Annahmen}
+\begin{adjustbox}{width=\textwidth}
+\begin{tabular}{ll} 
+\toprule
+\textbf{Annahme} & \textbf{Beschreibung}\\
+\midrule 
+\midrule
+\textbf{EMV Test}  & {\Absatz{Der EMV Test des TRAK Gerät besteht den Testauf auf Anhieb. Die Testdauer beträgt eine Woche \linebreak}} \\
+\midrule
+\textbf{EMV Kosten}  & {\Absatz{Die Kosten für ein EMV Test wird auf 10.000 \euro Gesetzt . Durch Expertenmeinungen des Mitarbeiters Rusch, Georg (Gelernter Elektrotechniker) \linebreak}} \\
+\midrule
+\textbf{TRAKSERV skalierbar}  & {\Absatz{Der Server der bereits installiert und integriert ist, reicht nicht aus um das Projekt TAV zu bewerkstelligen. Durch die neue Anschaffung wird auch angenommen das der TRAKSERV nach der Skalierung auf 700 TRAK Geräten den Sprung auf 1000 schafft.\linebreak}} \\
+\midrule
+\textbf{TRAK Produktion}  & {\Absatz{Es wird angenommen das 5\% der Produktion von TRAK Geräten fehlerhaft sind.\linebreak}} \\
+\midrule
+\textbf{Einbau TRAK}  & {\Absatz{Der Einbau eines TRAK Gerätes und die Verbindung zu TRAKSERV beträgt 30 Minuten in der Werkstatt. Zusätzlich wird der Einbau Dokumentiert und Fotografiert. \linebreak}} \\
+\midrule
+\textbf{Reisen Mitarbeiter}  & {\Absatz{Die Reisen der Mitarbeiter zu den Werkstätten zur Begutachtung des Einabu der TRAK Geräte werden mit einem Firmenwagen von EZ durchgeführt. \linebreak}} \\
+\midrule
+%\textbf{Teamentwicklung}  & {\Absatz{Nach den Gemeinsamen Wochenende %im Team, sind alle Unstimmigkeiten zwischen den Mitarbeiter gelöst und %die Kommunikation zwischen einander verbessert.\linebreak}} \\
+%\midrule
+\textbf{Einbau Kosten}  & {\Absatz{Der Einbau eines TRAK-Gerätes in der Vertragswerkstatt kostet 90\euro. \linebreak}} \\
+\midrule
+\textbf{Daten Schnittstelle AV}  & {\Absatz{Die Daten werden als Archiv und in XML-Format per Email an AV am Ende des Monats zugesendet.\linebreak}} \\
+\midrule
+\textbf{Annahme Pilot}  & {\Absatz{Projektplan wird so ausgelegt das der Proof of Concept poitiv verlaüft und der Pilot stattfindet.\linebreak}} \\
+\midrule
+\textbf{LTE Verträge}  & {\Absatz{Vereinbarung für einen Massenrabatt für die TRAK Geräte SIM-Karten mit einen Mobilfunkanbieter der Schweiz. Dadurch werden 20 \% angenommen, aus den 4.80 CHF/SIM kostet eine SIM-Karte nur noch 3.84 CHF. Umgerechnet sind das 3.39\euro /SIM monatliche Gebühren.\linebreak}} \\
+\midrule
+\textbf{Datenschutz}  & {\Absatz{Der Datenschutz erfodert änderungen an der Programmierung von TRAK \& TRAKSERV weil diese mit Verschlüsselungen und sicheren Protokollen versehen werden müssen.\linebreak}} \\
+\midrule
+\textbf{Lieferzeit}  & {\Absatz{Die Leiferzeit für die 342 TRAK Geräte für Proof od Concept dauert 1 Wochen \& für den Piloten weiter erforderlichen 723 ist die Lieferzeit 2 Wochen. Druck am Management machen weil sonst die Geräte Test nicht rechtzeitig fertig sind.\linebreak}} \\
+\midrule
+\textbf{Änderungen im PoC}  & {\Absatz{Bei dem Proof of Concept-Meeting \& Stakeholder-Meetings wird es Änderungen von seitens AV geben. \linebreak}} \\
+\midrule
+\textbf{Änderungen vor Pilot}  & {\Absatz{Nach dem Proof of Concept wird es ein Review und Lesson Learned-Meeting geben, wo sich weitere Änderungen von seitens AV erarbeitet werden müssen.
+\linebreak}} \\
+\midrule
+\textbf{Ausbau TRAK}  & {\Absatz{Nicht jeder Ausbau verläuft Fehlerlos damit wird eine Fehlerrate von 3 \% angenommen. Die Kosten für den Ausbau betragen 90\euro und dauert 45 Minuten.
+\linebreak}} \\
+\bottomrule
+\end{tabular}
+\end{adjustbox}
+\pagebreak
+
+%Annahmen 2
+\begin{adjustbox}{width=\textwidth}
+\begin{tabular}{ll} 
+\toprule
+\textbf{Annahme} & \textbf{Beschreibung}\\
+\midrule 
+\midrule
+\textbf{Sprachmodule Vertrag}  & {\Absatz{Die Werkstätten sind in der Schweiz verteilt, somit werden Verträge in Deutsch, Französisch und Italienisch benötigt. Der Italienische Vertrag macht der Projektleiter.
+Es wird angenommen das im Unternehmen EZ ein Mitarbeiter der, der Französischen Sprache in Wort und Schrift beherrscht existiert. 
+\linebreak}} \\
+\midrule
+\textbf{Annahme Geräte Test}  & {\Absatz{Der komplette Geräte Test eines einzelnen Gerät benötigt
+10 Minuten nach der Checkliste im Qualitätsprozess.
+\linebreak}} \\
+\midrule
+\textbf{Batterie Test}  & {\Absatz{Der TRAK hat keine große Auswirkung auf die Auto Batterie.
+\linebreak}} \\
+\midrule
+\textbf{TRAKSERV Entwickler}  & {\Absatz{Der TRAKSERV Entwickler heißt Peter Leaver und ist vor dem
+Proof of Concept zur vollen Verfügung für die Umschulung eines Mitarbeiters.
+\linebreak}} \\
+\midrule
+\textbf{Urlaubsperre}  & {\Absatz{Während des ersten Monat bis zum Start vom Proof of Concept und dem
+Monat vor dem Start des Pilot muss wegen den hohen Arbeitsaufwand eine Urlaubsperre verhängt werden.
+\linebreak}} \\
+\midrule
+\textbf{Teamentwicklung}  & {\Absatz{Aus anderen Teamentwicklungs Maßnahmen der Vergangenheit sind die kosten für ein Wochenende mit 2 Übernachtungen Vollpension gemeinsames, Bier-Brauen, Paint-Ball-Halle und das Projekt wird in einer Runden gemütlichen Runde erläutert.
+für 7 Personen rund 5000\euro. Nach den Gemeinsamen Wochenende im Team, sind alle Unstimmigkeiten zwischen den Mitarbeiter gelöst und die Kommunikation zwischen einander verbessert.\linebreak}} \\
+\midrule
+\textbf{Wartung}  & {\Absatz{Es wird einen Wartungsfall geben wo der Server und die TRAK-Geräte ein Update aufgespielt bekommen. Dies geschiet über den TRAKSERV Server auf die TRAK-Geräte.
+\linebreak}} \\
+\midrule
+\textbf{Versand TRAK}  & {\Absatz{Der Versand der TRAK-Geräte zu den Werkstätten verläuft versichert und kostet 16.70 \euro
+\linebreak}} \\
+\midrule
+\textbf{Awards Kosten}  & {\Absatz{Es werden für das Projekt Awards an 2 Mitarbeiter vergeben für je 2000\euro. Falls Risiken auftreten durch Verschulden des Teams, werden diese Kosten benutzt um die Kosten zu Verringern.
+\linebreak}} \\
+\midrule
+\textbf{Annahme Zeit}  & {\Absatz{Ein kompletter Arbeitstag beträgt 8 Stunden für ein Mitarbeiter. Eine komplette Arbeitswoche beträgt 40 Stunden pro Mitarbeiter.
+\linebreak}} \\
+\midrule
+\textbf{Ausgebaute TRAK Zürich}  & {\Absatz{Die ausgebauten TRAK-Geräte bleiben in Zürich, um diese nicht wieder zurück zu verschicken und dann wieder zu verteilen. Es wird angenommen das in der Vertragswerkstatt in Zürich diese wieder verbaut werden.
+\linebreak}} \\
+%\midrule
+%\textbf{Mitarbeiter Unbekannt}  & {\Absatz{Unbekannt wird im Laufe des Projekts zur Verfügung stehen, %weil sonst die Unit Tests für den TRAKSERV 300 Geräte Test und der TRAKSERV 1000 Geräte Test zu lange %dauert. Er heißt Lincoln Borrow.
+%\linebreak}} \\
+\bottomrule
+\end{tabular}
+\end{adjustbox}
 
 
+\subsection{Aktivitätenliste}
+\begin{adjustbox}{width=\textwidth}
+\begin{tabular}{llrrrr} 
+\toprule
+\textbf{Aktivität} & \textbf{Beschreibung}\\
+\midrule 
+\midrule
+
+%Projektmanagement Aktivitätenliste
+{\Umbruch{\textbf{Kommunikation}}}  & {\Absatz{Jedes Meeting (Proof of Concept-, Review and Lesson Learned-, Stakeholder- \& Status-Meeting) muss mit einer Agenda und Materialien ausgestattet werden für den nötigen Informationsaustausch. Jedes Meeting muss deswegen vorbereitet werden. \linebreak}} \\
+\midrule
+{\Umbruch{\textbf{Werkstätten bestimmen}}}  & {\Absatz{Es sollen Vertragswerkstätten bestimmt werden welche die TRAK Geräte in allen gewählten Fahrzeugtypen installieren. Es werden Verträge mit Werkstätten mit höherer Population abgeschlossen diese sind \textbf{Basel}, \textbf{Bern}, \textbf{Genf}, \textbf{Luzern}, \textbf{Zürich} und es sollen nach der Gesamtfläche der Schweiz im Umkreis von 50 km einen Vertragspartner gefunden werden.
+\begin{equation}
+Anzahl_{Werkstätten} = \nint[\Big]{\frac{A_{Schweiz}}{Umkreis}} = \nint[\Big]{\frac{41285 km^2}{(50 km)^2 \cdot \pi}} = 5
+\end{equation}
+Dadurch ergeben sich Verträge mit insgesamt \textbf{10} Werkstätten die alle Standards und Normen für die Installation der TRAK Geräte durchführen sollen.  \linebreak}} \\
+\midrule
+{\Umbruch{\textbf{Verträge mit Werkstätten}}}  & {\Absatz{Die ausgewählten Werkstätten sollen Vertraglich gebunden sein die TRAK Geräte nach dem Qualitätsprozess für den Einabu zu handeln im Falle eines Schaden.\linebreak}} \\
+\midrule
+{\Umbruch{\textbf{Datenschutz Vertrag}}}  & {\Absatz{Die Datenschutz Verträge mit den Werkstätten soll den Umgang mit Persönlichen Daten sichergestellt werden. \linebreak}} \\
+\midrule
+{\Umbruch{\textbf{LTE Verträge}}}  & {\Absatz{Eine Vereinbarung mit einen Schweitzer Mobilfunkanbieter soll getroffen werden um die TRAK Geräte mit den SIM-Karten kostengünstig auszustatten.\linebreak}} \\
+\midrule
+{\Umbruch{\textbf{Labor bestimmten}}}  & {\Absatz{Das Labor soll ausgesucht werden welches den Elektromagnetischen Test am TRAK gerät durchführt.\linebreak}} \\
+\midrule
+{\Umbruch{\textbf{Awards \& Abschlussfeier}}}  & {\Absatz{Ein Dankeschön an die Mitwirkung und Arbeit bei dem Projekt TAV mit Award Auszeichnung. Frühzeitige Planung und Reservierung der Räumlichkeiten.\linebreak}} \\
+
+%Software Aktivitätenliste
+\midrule
+{\Umbruch{\textbf{TRAKSERV Scale 300}}}  & {\Absatz{Der TRAKSERV Server soll auf 300 TRAK Geräte Skalierbar sein. Dazu werden nach der Beschaffung und den Geräte Tests erstmals alle 300 Geräte
+ohne Einbau in einem Raum ausgestellt und die Kommunikation mit TRAKSERV hergestellt und getestet.
+Dieser Test soll intensiv verlaufen.
+\linebreak}} \\
+\midrule
+{\Umbruch{\textbf{PoC Änderungen}}}  & {\Absatz{Nach dem Proof of Concept Meeting werden Änderungen bevorstehen im Piloten umgesetzt sein müssen.\linebreak}} \\
+\midrule
+{\Umbruch{\textbf{API von TRAKSERV zu AV}}}  & {\Absatz{Die Datenübertragung die am Ende des Monats durchgeführt werden soll automatisiert werden.\linebreak}} \\
+\midrule
+{\Umbruch{\textbf{Reviews \& BugFix}}}  & {\Absatz{Reviews und Test des Code müssen nach den Qualitätsprozessen durchgeführt und dokumentiert werden. Es soll mit Tools gearbeitet werden die Testdaten zu erzeugenn, Jobs für das Einchecken in eine Repository definiert werden
+um eine komplette Codereview zu erzeugen. Den Fortschritt dieser Ergebnisse sind bei den Status-Meeting den Projektleiter mitzuteilen. \linebreak}} \\
+\midrule
+{\Umbruch{\textbf{Projekt Dokumentation}}}  & {\Absatz{Im Laufe des Projekt sollen alle Bestandteile des Projekts TAV gesammelt und dokumentiert werden.\linebreak}} \\
+\bottomrule
+\end{tabular}
+\end{adjustbox}
+
+\pagebreak
+
+%Aktivitätenliste 2
+\begin{adjustbox}{width=\textwidth}
+\begin{tabular}{llrrrr} 
+\toprule
+\textbf{Aktivität} & \textbf{Beschreibung}\\
+\midrule 
+\midrule
+{\Umbruch{\textbf{TRAKSERV Scale 723}}}  & {\Absatz{Der TRAKSERV Server soll auf 723 TRAK Geräte gleichzeitig Skalierbar sein. Dazu werden nach der Beschaffung und den Geräte Tests erstmals alle 723 Geräte
+ohne Einbau in einem Raum \& in Firmenwagen von EZ ausgestellt und die Kommunikation mit TRAKSERV hergestellt und getestet werden. 
+\linebreak}} \\
+\midrule
+{\Umbruch{\textbf{Fehlerroutinen}}}  & {\Absatz{Im Laufe der Code Review und der Tests sollen Fehlerroutinen ausgearbeitet werden, damit ein Support Team am Telefon auf mögliche Fehler
+oder Ausfälle eine Lösung hat.\linebreak}} \\
+\midrule
+{\Umbruch{\textbf{Analyse der Daten}}}  & {\Absatz{Der Server soll die Daten der TRAK Geräte
+mit den bereitgestellten Daten von AV mit Straßennahmen und Geschwindigkeitsbeschränkungen ermitteln.\linebreak}} \\
+\midrule
+{\Umbruch{\textbf{Update Routinen}}}  & {\Absatz{Genau wie die Überlieferung der Daten sollen auch
+Änderungen bei den Bereitgestellten Daten von AV, die GPS-Karte sowie Updates von TRAK automatisiert
+im TRAKSERV durchgeführt werden können. Somit dem System eine Wartungsschnittstelle angebracht.\linebreak}} \\
+
+%Beschaffung Aktivitätenliste
+\midrule
+{\Umbruch{\textbf{Beschaffung TRAK PoC}}}  & {\Absatz{Es sollen für die Vorbereitungsphase und den PoC 320 TRAK Geräte eingebaut werden. Für die Mitarbeiter am Arbeitsplatz werden zusätzlich 5 TRAK Geräte beötigt und mit einer Fehler Wahrscheinlichkeit von 5\% ergibt das 342 TRAK Geräte.
+\begin{equation}
+\begin{split}
+A_{TRAK-PoC} &= (A_{PoC} + A_{Mitarbeiter}) \cdot A_{Produktion} \\\
+&=(320 + 5) \cdot 1.05 = 342
+\end{split}
+\end{equation}
+\linebreak}} \\
+\midrule
+{\Umbruch{\textbf{Einbau TRAK}}}  & {\Absatz{Der Einbau eines TRAK Gerät muss konzepiert und für die
+Werkstätten ausgearbeitet werden. Dies ist ein wichtiger Qualitätsprozess der zusätzlich definiert wird. Der Einbau soll für verschieden Fahrzeugtypen immer noch durchführbar sein.\linebreak}} \\
+\midrule
+{\Umbruch{\textbf{Beschaffung TRAK Pilot}}}  & {\Absatz{Durch den Ausbau der Bereits vorhanden
+TRAK Geräte werden noch weitere 680 für den 1000 TRAK Pilot gebraucht. Man beachte einer Fehlerrate in der Produktion von 5\% und beim Ausbau 10\%. Somit ergibt das eine Beschaffung von weiteren 748 TRAK Geräten.
+\begin{equation}
+\begin{split}
+A_{TRAK-Pilot} &= (A_{Pilot} - (A_{PoC} \cdot A_{Ausbaufehler})) \cdot A_{Produktion} \\\
+&= (1000 - (320 \cdot 0.90)) \cdot 1.05 = 748
+\end{split}
+\end{equation}
+\linebreak}} \\
+\midrule
+{\Umbruch{\textbf{Batterie Test}}}  & {\Absatz{Es werden Messungen an Kraftfahrzeugen Batterien und mehreren TRAK-Geräten durchgeführt um die Ursache auszuschließen.
+\linebreak}} \\
+\midrule
+{\Umbruch{\textbf{Ausbau PoC TRAK Geräte}}}  & {\Absatz{Die 20 angeschlossenen TRAK Geräte werden von einer Vertragswerkstatt ausgebaut und sicher verstaut für den Pilot.
+\linebreak}} \\
+\midrule
+{\Umbruch{\textbf{Neuer TRAKSERV Server einrichten}}}  & {\Absatz{Der neue Server der beschafft wird für den Proof of Concept \& Piloten wird eingerichtet.
+\linebreak}} \\
+\midrule
+{\Umbruch{\textbf{Schulung TRAKSERV für TAV}}}  & {\Absatz{Diese Schulung soll allen Mitarbeitern im Team ein fundiertes Wissen über TRAKSERV geben.
+\linebreak}} \\
+\midrule
+{\Umbruch{\textbf{Schulung TRAKSERV für TAV}}}  & {\Absatz{Diese Schulung soll allen Mitarbeitern im Team ein fundiertes Wissen über TRAK geben.
+\linebreak}} \\
+\bottomrule
+\end{tabular}
+\end{adjustbox}
+\pagebreak
+
+%Aktivitätenliste 3
+\begin{adjustbox}{width=\textwidth}
+\begin{tabular}{llrrrr} 
+\toprule
+\textbf{Aktivität} & \textbf{Beschreibung}\\
+\midrule 
+\midrule
+{\Umbruch{\textbf{GPS-Karte in TRAKSERV}}}  & {\Absatz{Um eine schnellere Server Berechnung der Geschwindigkeiten durchführen zu können sollen die GPS-Daten der Schweiz auf den TRAKSERV Server hinterlegt sein.
+\linebreak}} \\
+\midrule
+{\Umbruch{\textbf{Verschlüsselung der Daten}}}  & {\Absatz{Daten die in TRAKSERV hinterlegt sind
+sollen Verschlüsselt werden und damit diese auch Verschlüsselt gesendet werden können.
+\linebreak}} \\
+\midrule
+{\Umbruch{\textbf{Komprimierung der Daten}}}  & {\Absatz{Die Datensätzte die erzeugt werden sollen in einem geeigneten Komprimierung geschehen damit die Daten klein und weniger Paketverluste haben können.
+\linebreak}} \\
+\midrule
+{\Umbruch{\textbf{Geräte Test \& Freischaltung}}}  & {\Absatz{Der Geräte Test jeder der TRAK Geräte muss sich nach dem dafür vorgesehenen Qualitätsprozess mit Checkliste abgearbeitet werden. Zusaätzlich zum Test wird die SIM-Karte gleich Freigenschalten damit der Einbau in der Werkstatt diese Funktionsfähig und Betriebsbereit hat.
+\linebreak}} \\
+\midrule
+{\Umbruch{\textbf{TRAKSERV Test 342 Geräte}}}  & {\Absatz{Die 342 Geräte werden erst in einem Raum getestet um ihre Verbindung zum Server zu überprüfen und dann anschließend mehrere in den Firmenwagen von EZ im Kofferraum postiert und auf dem Firmengelände die Kommunikation ausgewertet.
+\linebreak}} \\
+
+\midrule
+{\Umbruch{\textbf{EMV Test}}}  & {\Absatz{Elektromagnetische Test im ausgewählten Labor einer geprüften und verifizierten Einrichtung.
+\linebreak}} \\
+\midrule
+{\Umbruch{\textbf{TRAKSERV Test 723 Geräte}}}  & {\Absatz{Die 723 Geräte werden erst in einem Raum getestet um ihre Verbindung zum Server zu überprüfen und dann anschließend mehrere in den Firmenwagen von EZ im Kofferraum postiert und auf dem Firmengelände die Kommunikation ausgewertet.
+\linebreak}} \\
+\midrule
+{\Umbruch{\textbf{Code Reviews}}}  & {\Absatz{Code Review werden nach dem definierten Qualitätsprozess abgearbeitet und getestet.
+\linebreak}} \\
+\midrule
+{\Umbruch{\textbf{System Integration}}}  & {\Absatz{Während der Pilot startet und das System zum ersten mal in vollen Leistungen läuft treten unerwartete Probleme auf die meistens intensiv behandelt werden müssen. Diese Werden im ersten Monat nach Pilot Start auftreten.
+\linebreak}} \\
+\midrule
+{\Umbruch{\textbf{Workshops für Werkstätten}}}  & {\Absatz{Jede ausgewählte Vertragswerkstatt bekommt einen Workshop mit dem Einbau Mitarbeiter um den Umgang und Einbau von TRAK nach dem Qualitätsprozess zu gewährleisten.
+\linebreak}} \\
+\midrule
+{\Umbruch{\textbf{Support PoC}}}  & {\Absatz{Support während dem Proof of Concept Phase am TRAKSERV und für die Werkstätten
+\linebreak}} \\
+\midrule
+{\Umbruch{\textbf{Support Pilot}}}  & {\Absatz{Support während dem Pilot Phase am TRAKSERV und für die Werkstätten
+\linebreak}} \\
+\midrule
+{\Umbruch{\textbf{Schulung TRAKSERV}}}  & {\Absatz{Der Mitarbeiter Peter Leaver muss einen neuen Mitarbeiter für TRAKSERV ein lernen.
+\linebreak}} \\
+\midrule
+{\Umbruch{\textbf{Schulung Kundendiest}}}  & {\Absatz{Der Kundendienst bei AV soll geschult werden welche Schritte eingeleitet werden können bei Problemen mit TRAK oder TRAKSERV und wie diese umgesetzt werden.  
+\linebreak}} \\
+%\midrule
+%{\Umbruch{\textbf{Ausschreibungen}}}  & {\Absatz{TODO!
+%\linebreak}} \\
+\midrule
+{\Umbruch{\textbf{Team Entwicklung}}}  & {\Absatz{Wochenende mit 2 Übernachtungen Vollpension, Paint-Ball-Halle und Hallenkartbahn soll die Kommunikation und Arbeitsklima stärken.
+\linebreak}} \\
+\midrule
+{\Umbruch{\textbf{Begutachtung Einabu}}}  & {\Absatz{Ein Mitarbeiter wird beauftragt beim ersten Einbauphase der ersten 20 TRAK-Geräte, diese komplette zu Begutachten
+\linebreak}} \\
+\bottomrule
+\end{tabular}
+\end{adjustbox}
 \newgeometry{left=3cm,bottom=3cm}
 
+
 \begin{sidewaysfigure}
-\section{Projektstrukturplan}
+\subsection{Projektstrukturplan}
 \vskip 1cm
 
 \begin{tikzpicture}[
@@ -124,56 +458,67 @@ EZ baut für 1000 Fahrzeuge und 20 verschiedene Fahrzeugtypen die Tracking-Gerä
 \begin{scope}[every node/.style={level 3}]
 \node [below of = c1, xshift=8pt] (c11) {Planung};
 \node [below of = c11] (c12) {Kommunikation};
-\node [below of = c12] (c13) {Datenschutz};
+\node [below of = c12] (c13) {Datenschutz Vertrag};
 \node [below of = c13] (c14) {Verträge mit Werkstätten};
-\node [below of = c14] (c15) {Ausführung};
-\node [below of = c15] (c16) {TRAK gesetliche Vorgaben};
-\node [below of = c16] (c17) {LTE Verträge};
-\node [below of = c17] (c18) {Stakeholderanalyse};
+\node [below of = c14] (c15) {LTE Verträge};
+\node [below of = c15] (c16) {Labor bestimmen};
+\node [below of = c16] (c17) {Awards \& Abschlussfeier};
+\node [below of = c17] (c18) {Ausführung};
+%\node [below of = c18] (c19) {};
+%\node [below of = c19] (c110) {};
 
-\node [below of = c2, xshift=8pt] (c21) {Server skalieren};
+\node [below of = c2, xshift=8pt] (c21) {TRAKSERV Scale auf 300};
 \node [below of = c21] (c22) {PoC Änderungen};
-\node [below of = c22] (c23) {Schnittstelle von TRAKSERV zu AV};
+\node [below of = c22] (c23) {API von TRAKSERV zu AV};
 \node [below of = c23] (c24) {Reviews \& BügFix};
-\node [below of = c24] (c25) {Dokumentation};
-\node [below of = c25] (c26) {Webseite für AV};
-\node [below of = c25] (c26) {Qualitätskriterien nachweisen};
-\node [below of = c26] (c27) {Fehlerroutinen};
-\node [below of = c27] (c28) {Analyse der Daten};
-\node [below of = c28] (c29) {PbD Erweiterung};
-\node [below of = c29] (c210) {Sprachmodule};
+\node [below of = c24] (c25) {Projekt Dokumentation};;
+\node [below of = c25] (c26) {Fehlerroutinen};
+\node [below of = c26] (c27) {Analyse der Daten};
+\node [below of = c27] (c28) {TRAKSERV Scale 723 Geräte};
+\node [below of = c28] (c29) {GPS-Karte in TRAKSERV};
+\node [below of = c29] (c210) {Verschlüsselung der Daten};
+\node [below of = c210] (c211) {Komprimierung der Daten};
+\node [below of = c211] (c212) {Änderungen vor Pilot};
+\node [below of = c212] (c213) {Update Routinen};
 
-\node [below of = c3, xshift=8pt] (c31) {Beschaffung TRAK};
-\node [below of = c31] (c32) {Einbau TRAK};
-\node [below of = c32] (c33) {Server Beschaffung};
-\node [below of = c33] (c34) {Batterie Problem};
-\node [below of = c34] (c35) {Dokumentation};
-\node [below of = c35] (c36) {Qualitätskriterien umsetzen};
+\node [below of = c3, xshift=8pt] (c31) {Beschaffung TRAK PoC};
+\node [below of = c31] (c32) {Neuer TRAKSERV Server einrichten};
+\node [below of = c32] (c33) {Einbau TRAK Konzept};
+\node [below of = c33] (c34) {Beschaffung TRAK Pilot};
+\node [below of = c34] (c35) {Ausbau PoC TRAK Geräte};
+\node [below of = c34] (c35) {Beschaffung SIM-Karten PoC};
+\node [below of = c35] (c36) {Beschaffung SIM-Karten Pilot};
+%\node [below of = c36] (c37) {};
+%\node [below of = c37] (c38) {};
 
-\node [below of = c4, xshift=8pt] (c41) {Unit Test};
-\node [below of = c41] (c42) {Server Test};
+\node [below of = c4, xshift=8pt] (c41) {Geräte Test 342 \& Freischaltung};
+\node [below of = c41] (c42) {TRAKSERV Test 300 Geräte};
 \node [below of = c42] (c43) {EMV Test};
 \node [below of = c43] (c44) {Batterie Test};
-\node [below of = c44] (c45) {Qualitäts Test};
-\node [below of = c45] (c46) {TRAK Validierung};
-\node [below of = c46] (c47) {TRAK verifizieren};
+\node [below of = c44] (c45) {TRAKSERV Test 723 Geräte};
+\node [below of = c45] (c46) {Code Reviews};
+\node [below of = c46] (c47) {Geräte Test 723 \& Freischaltung};
 
-\node [below of = c5, xshift=8pt] (c51) {Server installieren};
-\node [below of = c51] (c52) {System Test};
-\node [below of = c52] (c53) {Workshops für Werkstätten};
-\node [below of = c53] (c54) {Fehlerbehandlung};
-\node [below of = c54] (c55) {Webschnittstelle zu AV};
+\node [below of = c5, xshift=8pt] (c51) {System Integration};
+\node [below of = c51] (c52) {Workshops für Werkstätten};
+%\node [below of = c52] (c53) {Fehlerbehandlung};
+\node [below of = c52] (c53) {Support Pilot};
+\node [below of = c53] (c54) {Support PoC};
+\node [below of = c54] (c55) {Begutachtung Einabu};
+\node [below of = c55] (c56) {Wartung};
 
 \node [below of = c6, xshift=8pt] (c61) {Schulung TARKSERV};
 \node [below of = c61] (c62) {Schulung Kundendienst};
-\node [below of = c62] (c63) {Ausschreibungen};
+\node [below of = c62] (c63) {Teamentwicklung};
+\node [below of = c63] (c64) {Schulung TARKSERV für TAV};
+\node [below of = c64] (c65) {Schulung TARK für TAV};
 \end{scope}
 
 % lines from each level 1 node to every one of its "children"
 \foreach \value in {1,...,8}
   \draw[->] (c1.180) |- (c1\value.west);
 
-\foreach \value in {1,...,10}
+\foreach \value in {1,...,13}
   \draw[->] (c2.180) |- (c2\value.west);
 
 \foreach \value in {1,...,6}
@@ -182,10 +527,10 @@ EZ baut für 1000 Fahrzeuge und 20 verschiedene Fahrzeugtypen die Tracking-Gerä
 \foreach \value in {1,...,7}
   \draw[->] (c4.180) |- (c4\value.west);
 
-\foreach \value in {1,...,5}
+\foreach \value in {1,...,6}
   \draw[->] (c5.180) |- (c5\value.west);
   
-\foreach \value in {1,...,3}
+\foreach \value in {1,...,5}
   \draw[->] (c6.180) |- (c6\value.west);
 
 \end{tikzpicture}
@@ -193,117 +538,160 @@ EZ baut für 1000 Fahrzeuge und 20 verschiedene Fahrzeugtypen die Tracking-Gerä
 \restoregeometry
 \clearpage
 
-\subsection{Aktivitätenliste}
+\section{Ressourcenplan}
 
-\subsection{Proof of Concept}
-
-\subsubsection{Arbeitspaket XXX}
-Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam
-\hfill \vspace{5mm}
-\begin{tabular}{llrrrr} 
+\begin{tabular}{clrr} 
 \toprule
-\textbf{Asset} & \textbf{Beschreibung} & \textbf{Verantwortlich} & \textbf{Start} & \textbf{Ende} & \textbf{Dauer}\\
+\textbf{\#} & \textbf{Aktivität} & \textbf{Zuständigkeit} \\ 
 \midrule 
 \midrule
-Arbeitspaket XXX  & Lorem ipsum dolor sit amet & 00000 & 00000 & 00000 & 00000\\
+%\textbf{Vorbereitung Phase} &  &  \\
+%\midrule
+\textbf{*} &\textbf{Planung} 							& PM\\
+\textbf{*} &\textbf{Kommunikation} 						& PM\\
+\textbf{*} &\textbf{Ausführung} 						& PM\\
+\textbf{A1} &\textbf{Datenschutz Vertrag} 				& PM, Datenschutzbeauftragter\\
+\textbf{A1} &\textbf{Verträge mit Werkstätten} 			& PM, Einkauf\\
+\textbf{A1} &\textbf{LTE Verträge} 						& PM, Einkauf\\
+\textbf{A1} &\textbf{Labor bestimmen} 					& PM, Einkauf\\
+\textbf{A1} &\textbf{Beschaffung TRAK PoC}				& PM, Einkauf\\
+\textbf{A1} &\textbf{Beschaffung SIM-Karten PoC} 		& PM, Einkauf\\
+\textbf{A2} &\textbf{Schulung TRAK für TAV} 			& JD, OB, KK, RG, SK\\
+\textbf{A3} &\textbf{API von TRAKSERV zu AV} 	& LP\\
+\textbf{A4} &\textbf{Analyse der Daten} 				& JD\\
+\textbf{A5} &\textbf{Schulung TRAKSERV für TAV} 		& LP, OB, KK, RG, SK\\
+\textbf{A6} &\textbf{Update Routinen} 					& SK\\
+\textbf{A7} &\textbf{Batterie Test} 					& RG \\
+\textbf{A8} &\textbf{Neuer TRAKSERV Server einrichten} 	& OB, LP\\
+\textbf{A9} &\textbf{Geräte Test 342 \& Freischaltung} 	& JD\\
+\textbf{A10} &\textbf{TRAKSERV Scale Test 300 Geräte}	& RG\\
+\textbf{A11} &\textbf{Schulung TRAKSERV} 				& OB, KK, LP\\
+\textbf{A12} &\textbf{Verschlüsselung der Daten} 		& JD\\
+\textbf{A12} &\textbf{Komprimierung der Daten} 			& JD\\
+\textbf{A13} &\textbf{GPS-Karte in TRAKSERV} 			& KK, LP\\
+\textbf{A14} &\textbf{Einbau TRAK Konzept} 				& RG\\
+\textbf{A15} &\textbf{Begutachtung Einabu} 				& RG\\
+\textbf{A16} &\textbf{Fehlerroutinen} 					& JD, LP\\
+\textbf{A17} &\textbf{PoC Änderungen} 					& BO, KK\\
+\textbf{A18} &\textbf{Support PoC} 						& OB, SK\\
+\textbf{A19} &\textbf{Code Reviews} 						& SK\\
+\textbf{A20} &\textbf{Reviews \& BugFix} 				& KK, SK\\
+\textbf{A21} &\textbf{Beschaffung  TRAK Pilot} 			& PM, Einkauf\\
+\textbf{A21} &\textbf{Beschaffung SIM-Karten Pilot} 		& PM, Einkauf\\
+\textbf{A22} &\textbf{Änderung vor Pilot} 				& BO, KK, SK\\ %Pilot
+\textbf{A23} &\textbf{Workshops für Werkstätte} 			& RG, SK\\
+\textbf{A24} &\textbf{Geräte Test 723 \& Freischaltung} 	& PM, RG, KK, SK\\
+\textbf{A25} &\textbf{System Integration} 				& PM, OB, RG, KK, SK\\
+\textbf{A26} &\textbf{TRAKSERV Scale 723 Geräte} 		& RG\\
+\textbf{A27} &\textbf{Projekt Dokumentation} 			& KK\\
+\textbf{A28} &\textbf{Schulung Kundendienst} 			& KK, SK\\
+\textbf{A29} &\textbf{Wartung} 							& BO\\
+\textbf{A30} &\textbf{Support Pilot} 					& OB, KK, SK\\
+\textbf{*} &\textbf{Awards \& Abschlussfeier} 			& PM\\
+\textbf{*}&\textbf{Teamentwicklung} 					& PM  \\
 \bottomrule
 \end{tabular}
-\vspace{5mm}
+\begin{acronym}[Bash]
+ \acro{A1,A12,A20}{Sind Aktivitäten die zusammengefasst, weil sie hintereinander stattfinden }
+ \acro{*}{Aktivitäten die den Prozess des Projekts durchgehend begleitend oder außerhalb sind}
+\end{acronym}
 
-\subsubsection{Verträge mit Werkstätten}
-Es sollen Vertragswerkstätten bestimmt werden welche die TRAK Geräte in allen gewählten Fahrzeugtypen installieren. Es werden Verträge mit Werkstätten mit höherer Population abgeschlossen diese sind \textbf{Basel}, \textbf{Bern}, \textbf{Genf}, \textbf{Luzern}, \textbf{Zürich} und es sollen nach der Gesamtfläche der Schweiz im Umkreis von 50 km einen Vertragspartner gefunden werden.
-\begin{equation}
-Anzahl_{Werkstätten} = \nint[\Big]{\frac{A_{Schweiz}}{Umkreis}} = \nint[\Big]{\frac{41285 km^2}{(50 km)^2 \cdot \pi}} = 5
-\end{equation}
-Dadurch ergeben sich Verträge mit insgesamt \textbf{10} Werkstätten die alle Standards und Normen für die Installation der TRAK Geräte durchführen sollen. 
-\hfill \vspace{5mm}
-\begin{tabular}{llrrrr} 
+
+\section{Risiken}
+\begin{description}
+\item[Potenzielle Risiken]~\par
+\begin{itemize}
+      \item EMV Test nicht bestanden
+      \item Krankheit der Mitarbeiter
+      \item Pilot Phase des Projekts nicht bekommen
+      \item Lieferverzug Pilot
+      \item Einbau der TRAK Geräte bei den Werkstätten verzögert sich
+      \item LTE Verträge sind teurer
+      \item Änderungen im Proof of Concept nicht in der Zeit umsetzbar
+      \item Änderungen im Pilot nicht in der Zeit umsetzbar
+      \item Fehler in der Produktion der TRAK-Geräte höher als 5\%
+      \item TRAKSERV Umschulung nicht in 4 Wochen machbar
+      \item Batterie Test führt zu Platinen Änderung
+   \end{itemize}
+\end{description}
+
+\begin{adjustbox}{width=\textwidth}
+\begin{tabular}{c | x | x | y | y | z}
 \toprule
-\textbf{Asset} & \textbf{Beschreibung} & \textbf{Verantwortlich} & \textbf{Start} & \textbf{Ende} & \textbf{Dauer}\\
-\midrule 
+\rowcolor{cellgray}
+\textbf{Projektziele} & \textbf{sehr klein} & \textbf{klein} & \textbf{mittel} & \textbf{hoch} & \textbf{sehr hoch} \\
+\cmidrule(lr){1-1}\cmidrule(lr){2-6}
+\textbf{Kosten} & {\Risiko{Kosten nicht signifikant}} & <5\% & 5-10\% & 10-20\% & >20\%\\
 \midrule
-01  & {\Zelle Vertragswerkstätten bestimmen \linebreak} & Domenico Milazzo & 01.01.2019 & 31.01.2019 & 30\\
+\textbf{Zeit} & {\Risiko{Zeitplan nicht signifikant}} & <5\% & 5-10\% & 10-20\% & >20\%\\
+\midrule
+\textbf{Inhalt} & {\Risiko{Kaum Inhalte betroffen}} & {\Risiko{kleine Inhalte betroffen}} & {\Risiko{Wichtige Inhalte betroffen}} & {\Risiko{Inhalte für Kunden inakzeptabel}} & Fehlerentwicklung\\
+\midrule
+\textbf{Qualität} & {\Risiko{Kaum Abstriche in der Qualität}} & {\Risiko{Kleine Abstriche in der Qualität}} & {\Risiko{Abstriche}} & {\Risiko{Qualität für Kunden inakzeptabel}} & Fehlerentwicklung\\
 \bottomrule
 \end{tabular}
+\end{adjustbox}
 
-%next
 
-\vspace{5mm}
-\subsection{Pilot}
-\subsubsection{Arbeitspaket XXX}
-Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam
-\hfill \vspace{5mm}
-\begin{tabular}{llrrrr} 
+%Farbe Grun:	celadon
+%Farbe Geld:	corn
+%Farbe Rot:		pastelred
+
+\subsection{Risikoanalyse}
+\begin{adjustbox}{width=\textwidth}
+\begin{tabular}{c | l | r | l | l | l | r}
 \toprule
-\textbf{Asset} & \textbf{Beschreibung} & \textbf{Verantwortlich} & \textbf{Start} & \textbf{Ende} & \textbf{Dauer}\\ 
-\midrule 
-\midrule
-Arbeitspaket XXX  & Lorem ipsum dolor sit amet & 00000 & 00000 & 00000 & 00000\\
+\textbf{Risiko} & \textbf{Gefährdung} & \textbf{Schaden (\euro{})} & \textbf{Ursache} & \textbf{Maßnahme} & \textbf{P(x)/ B} & \textbf{Ranking}\\
+\cmidrule(lr){1-1}\cmidrule(lr){2-7}
+\rowcolor{celadon}
+\textbf{Krankheit} & {\Risiko{Verzug Zeitplan \\ für 5 Tage }} & {\Risiko{1.337,50}} &  & {\Risiko{Unbekannt \\ einsetzen}} & {\Risiko{0,35 / sehr klein}} & {\Risiko{4}}\\
+\rowcolor{celadon}
+\textbf{Lieferverzug Pilot} & {\Risiko{Verzug Zeitplan \\ für 7 Tage,\\ Einbau verzögert sich}} & {\Risiko{12.600,00}} & {\Risiko{Produktion stockt, \\Lieferdienst \\ Verspätung}} & {\Risiko{Versicherung abschließen}} & {\Risiko{0,12 / klein}} & {\Risiko{3}}\\
+\rowcolor{celadon}
+\textbf{EMV Test} & {\Risiko{nicht bestanden}} & {\Risiko{14.500,00}} & {\Risiko{TRAK Platine \\ schlechtes Design}} & {\Risiko{Verbesserungen, \\ Wiederholung }} & {\Risiko{0,80 / klein}} & {\Risiko{2}}\\
+\rowcolor{pastelred}
+\textbf{Pilot} & {\Risiko{nicht bekommen}} & {\Risiko{72.005,24}} & {\Risiko{Preis hoch, \\mangel Qualität}} & {\Risiko{Katastrophe}} & {\Risiko{0,35 / sehr hoch}} & {\Risiko{1}}\\
 \bottomrule
 \end{tabular}
+\end{adjustbox}
 
-%next
-\vspace{5mm}
+\begin{acronym}[Bash]
+ \acro{P(x)}{Wahrscheinlichkeit für das auftreten eines Ereignisses}
+ \acro{B}{Bewertung nach der Gegebenen Risikomatrix}
+\end{acronym}
 
-\section{Zeitplan}
-\begin{tabular}{lrrr} 
-\toprule
-\textbf{Phase} & \textbf{Start} & \textbf{Ende} & \textbf{Dauer}\\ 
-\midrule 
-\midrule
-\textbf{Vorbereitung} & 00000 & 00000 & 00000\\
-\textbf{Proof of Concept} & 00000 & 00000 & 00000\\
-\textbf{Pilot} & 00000 & 00000 & 00000\\
-\midrule
-\textbf{Gesamt} &  &  & 00000\\
-\bottomrule
-\end{tabular}
-
-\subsection{Meilensteine}
-\begin{tabular}{llr} 
-\toprule
-\textbf{\#} & \textbf{Meilenstein} & \textbf{Datum}\\ 
-\midrule 
-\midrule
-1  & Meilenstein XXX & 01.01.2019\\
-\midrule
-1  & Meilenstein XXX & 01.01.2019\\
-\bottomrule
-\end{tabular}
-
-%next
-\vspace{5mm}
-
-\subsection{Rangfolgediagramm}
-Hallo
-
-\subsection{GANT-Diagramm}
-Hallo
-
-\subsection{PERT-Diagramm}
-Hallo
 
 \section{Qualitätsmanagement}
-Hallo
+\subsection{Qualitätsprozess Software Entwicklung}
 
-\subsection{Checkliste}
-Hallo
+Dieser Prozess definiert wie Software im Projekt TAV entwickelt wird. Die Prozess Schritte 
+sichern einen Qualitätsstandart der für die Zuverlässigkeit und Robustheit erforderlich ist.
 
-\subsection{Metriken zur Messung der Qualität}
-Hallo
+\vspace{5mm}
+%\begin{adjustbox}{width=\textwidth}
+\tikzset{ 
+  >=Latex, 
+  line/.style={draw,->}, 
+  anode/.style={rectangle,draw=black,fill=red!20, 
+    align=center,rounded corners,minimum height=4em,font=\strut}, 
+  bnode/.style={anode,fill=green!20,text width=5em,\ttfamily} 
+} 
 
-\subsection{Qualitätsprozesse}
-Hallo
-
-\section{Organigram}
-Die Projektorganisation und somit die Kommunikationsbeziehungen wird folgendermaßen stattfinden.
-\hfill \vspace{5mm}
-\tikzset{font=\small,
+%\begin{adjustbox}{width=\textwidth}
+\tikzset{ 
+  >=Latex, 
+  line/.style={draw,->}, 
+  anode/.style={rectangle,draw=black,fill=red!20, 
+    align=center,rounded corners,minimum height=4em,font=\strut}, 
+  bnode/.style={anode,fill=green!20,text width=5em,\ttfamily} 
+} 
+\begin{adjustbox}{width=\textwidth}
+\begin{tikzpicture}[font=\ttfamily,
 edge from parent fork down,
 level distance=1.75cm,
 every node/.style=
     {top color=white,
-    bottom color=blue!25,
+    bottom color=green!25,
     rectangle,rounded corners,
     minimum height=8mm,
     draw=blue!75,
@@ -315,88 +703,874 @@ every node/.style=
 edge from parent/.style=
     {draw=blue!50,
     thick
-    }}
+    }]
+  \path[nodes=anode,node distance=2cm] 
+    node (a1) {Anorderungen} 
+    node [right=of a1](a2){Entwurf} 
+    node [right=of a2](a3){Implementation}
+    node [right=of a3](a4){Überprüfung}
+    node [right=of a4](a5){Wartung}
+  ; 
+  \path [every edge/.append style=line] 
+    (a1) edge (a2) 
+    (a2) edge (a3)
+    (a3) edge (a4)
+    (a4) edge (a5)
+  ;  
+\end{tikzpicture}  
+\end{adjustbox}
+\paragraph{\large{Checkliste Software Entwicklung}}
+\begin{flushleft}
+\begin{tabular}{lll} 
+\toprule
+\textbf{Pos} & \textbf{Prozess} & \textbf{Überprüfung}\\ 
+\midrule 
+\midrule
+1  & Anforderung & Modellierung der Software nach der Aktivitätenbeschreibung \\
+\midrule
+2  & Entwurf & Enwurf der Softwarearchitektur \\
+\midrule
+3  & Implementation & Software Implementierung aus dem Entwurf und Anforderungen \\
+\midrule
+4  & Überprüfung & Integration und Test der Software mit Testdaten \\
+\midrule
+5  & Wartung & Wartung der Software und Einchecken in die Repository \\
+\bottomrule
+\end{tabular}
+\end{flushleft}
 
-{\centering
-\begin{tikzpicture}
-\Tree
-[.{Management EZ}
-	[.{\Umbruch{Projektleiter TAV Milazzo, Domenico \linebreak}}
-        [.{Team EZ}
-            [.{John, Daniel}  [.{\Umbruch{Schulung TARKSERV \linebreak}} ] ]
-            [.{Bloomberg, Olaf} [.{\Umbruch{Aufgabe XXX \linebreak}} ] ]
-            [.{Keit, Kerstin} [.{\Umbruch{Aufgabe XXX \linebreak}} ] ]
-            [.{Rusch, Gerorg} [.{\Umbruch{Aufgabe XXX \linebreak}} ] ]
-            [.{Scoda, Kaya} [.{\Umbruch{Aufgabe XXX \linebreak}} ] ] ]        
-        [.{AV}
-            [.{Uris, Katt} ] ]
-    	]
-	]
-]
+\subsection{Qualitätsprozess Geräte Test}
+
+Der Geräte Test ist eine grundlegende Qualitätsmerkmal eines jeden TRAK-Gerätes um die Zuverlässigkeit zu bestimmen bevor die Geräte eingebaut werden.
+Er dient zur Feststellung jeglicher Mängel in der Produktion oder Versand als Mängeltest und Sichtprüfung. Das Einschalten und Funktionstest ob Daten im Speicher von TRAK hinterlegt werden wird überprüft. Die SIM-Karte wird Eingesetzt und Freigeschalten, damit diese nicht unter Tätigkeit der Werkstatt passiert und somit ein Fehler daraus ausgeschlössen werden kann. Durch die SIM-Karte ist der Servertest mit Ping und Datenübertragung gegeben.
+
+\vspace{5mm}
+%\begin{adjustbox}{width=\textwidth}
+\tikzset{ 
+  >=Latex, 
+  line/.style={draw,->}, 
+  anode/.style={rectangle,draw=black,fill=red!20, 
+    align=center,rounded corners,minimum height=4em,font=\strut}, 
+  bnode/.style={anode,fill=green!20,text width=5em,\ttfamily} 
+} 
+
+\begin{adjustbox}{width=\textwidth}
+\begin{tikzpicture}[font=\ttfamily,
+edge from parent fork down,
+level distance=1.75cm,
+every node/.style=
+    {top color=white,
+    bottom color=green!25,
+    rectangle,rounded corners,
+    minimum height=8mm,
+    draw=blue!75,
+    very thick,
+    drop shadow,
+    align=center,
+    text depth = 0pt
+    },
+edge from parent/.style=
+    {draw=blue!50,
+    thick
+    }]
+  \path[nodes=anode,node distance=2cm] 
+    node (a1) {Mängeltest} 
+    node [right=of a1](a2){Funktionstest} 
+    node [right=of a2](a3){Softwaretest}
+    node [right=of a3](a4){SIM-Einsatz}
+    node [right=of a4](a5){Servertest} 
+  ; 
+  \path [every edge/.append style=line] 
+    (a1) edge (a2) 
+    (a2) edge (a3)
+    (a3) edge (a4)
+    (a4) edge (a5)
+  ; 
+\end{tikzpicture}  
+\end{adjustbox}
+  
+\paragraph{\large{Checkliste Geräte Test}}
+\begin{flushleft}
+\begin{tabular}{lll} 
+\toprule
+\textbf{Pos} & \textbf{Prozess} & \textbf{Überprüfung}\\ 
+\midrule 
+\midrule
+1  & Mängeltest & Sichtprüfung und Kontrolle \\
+\midrule
+2  & Funktionstest & Test ob Funktion des TRAK gegeben ist ohne Server \\
+\midrule
+3  & Softwaretest & Aktuelle Software wird nochmals aufgespielt und überprüft. \\
+\midrule
+4  & SIM-Einsatz & SIM-Karte wird Eingesetzt und Freigenschalten \\
+\midrule
+5  & Servertest & Servertest mit Ping und Datenübertragung \\
+\bottomrule
+\end{tabular}
+\end{flushleft}
+
+\subsection{Qualitätsprozess Code Review}
+
+Der Code Review soll deutlich die Robustheit und Qualität der Software sicherstellen mit analytischen Qualitätssicherungsmaßnahmen. Hier sollen Abweichungen von den allgemeinen Standarts oder Namenskonventionen entdeckt werden. Fehler in dem Anforderungen der Aktivität oder Software. Fehler im Entwurf oder Design der Software. Keine oder unzureichende Wartbarkeit oder falsche Schnittstellenspezifikation.
+
+\vspace{5mm}
+%\begin{adjustbox}{width=\textwidth}
+\tikzset{ 
+  >=Latex, 
+  line/.style={draw,->}, 
+  anode/.style={rectangle,draw=black,fill=red!20, 
+    align=center,rounded corners,minimum height=4em,font=\strut}, 
+  bnode/.style={anode,fill=green!20,text width=5em,\ttfamily} 
+} 
+\begin{adjustbox}{width=\textwidth}
+\begin{tikzpicture}[font=\ttfamily,
+edge from parent fork down,
+level distance=1.75cm,
+every node/.style=
+    {top color=white,
+    bottom color=green!25,
+    rectangle,rounded corners,
+    minimum height=8mm,
+    draw=blue!75,
+    very thick,
+    drop shadow,
+    align=center,
+    text depth = 0pt
+    },
+edge from parent/.style=
+    {draw=blue!50,
+    thick
+    }]
+  \path[nodes=anode,node distance=2cm] 
+    node (a1) {Ticket} 
+    node [right=of a1](a2){Review} 
+    node [right=of a2](a3){Implementierung}
+    node [right=of a3](a4){PeerReview}
+    node [right=of a4](a5){Unit Test}
+    node [right=of a5](a6){Einchecken}
+    node [right=of a6](a7){Repository Test}
+  ; 
+  \path [every edge/.append style=line] 
+    (a1) edge (a2) 
+    (a2) edge (a3)
+    (a3) edge (a4)
+    (a4) edge (a5)
+    (a5) edge (a6)
+    (a6) edge (a7)
+  ;  
+\end{tikzpicture}  
+\end{adjustbox}
+  
+\paragraph{\large{Checkliste Code Review}}
+\begin{flushleft}
+\begin{tabular}{lll} 
+\toprule
+\textbf{Pos} & \textbf{Prozess} & \textbf{Überprüfung}\\ 
+\midrule 
+\midrule
+1  & Ticket & Meldung eines Problems oder Verbesserung. \\
+\midrule
+2  & Review & Absprache mit Entwickler und Programmierer \\
+\midrule
+3  & Implementierung & Das Konzept wird in Code gewandelt \\
+\midrule
+4  & PeerReview & Der Code wird von einem zweitem oder Mehrere Programmierer inspiziert \\
+\midrule
+5  & Unit Test & Nach der Implementierung wird die Einheit auch getestet \\
+\midrule
+6  & Einchecken & Wartung der Software und Einchecken in die Repository \\
+\midrule
+7  & Repository Test & Bevor die Repository den Code übernimmt werden Test ausgeführt.\\
+\bottomrule
+\end{tabular}
+\end{flushleft}
+
+
+\subsection{Qualitätsprozess Einbau TRAK}
+
+Hier wird die Vorgehensweise des Einbaus eines TRAK-Gerätes in der Werkstatt definiert. Dieser dient um mögliche Schäden am Auto von EZ abzuwenden und zur Dokumentation. Zusätzlich wird die Funktion im Auto gewährleistet.
+
+\vspace{5mm}
+%\begin{adjustbox}{width=\textwidth}
+\tikzset{ 
+  >=Latex, 
+  line/.style={draw,->}, 
+  anode/.style={rectangle,draw=black,fill=red!20, 
+    align=center,rounded corners,minimum height=4em,font=\strut}, 
+  bnode/.style={anode,fill=green!20,text width=5em,\ttfamily} 
+} 
+
+\begin{tikzpicture}[font=\ttfamily,
+edge from parent fork down,
+level distance=1.75cm,
+every node/.style=
+    {top color=white,
+    bottom color=green!25,
+    rectangle,rounded corners,
+    minimum height=8mm,
+    draw=blue!75,
+    very thick,
+    drop shadow,
+    align=center,
+    text depth = 0pt
+    },
+edge from parent/.style=
+    {draw=blue!50,
+    thick
+    }]
+  \path[nodes=anode,node distance=2cm] 
+    node (a1) {Foto} 
+    node [right=of a1](a2){Einbau} 
+    node [right=of a2](a3){Funktionstest}
+    node [right=of a3](a4){Foto}  
+  ; 
+  \path [every edge/.append style=line] 
+    (a1) edge (a2) 
+    (a2) edge (a3)
+    (a3) edge (a4)
+  ; 
+\end{tikzpicture}  
+%\end{adjustbox}
+  
+\paragraph{\large{Checkliste Einbau TRAK}}
+\begin{flushleft}
+\begin{tabular}{lll} 
+\toprule
+\textbf{Pos} & \textbf{Prozess} & \textbf{Überprüfung}\\ 
+\midrule 
+\midrule
+1  & Foto & Dieses Foto dokumentiert den Zustand des Wagens vor den Einbau. \\
+\midrule
+2  & Einbau & Durchführung des Einbaus nach der Einweisung im Workshop. \\
+\midrule
+3  & Funktionstest & Test des TRAK-Gerät im Auto. \\
+\midrule
+4  & Foto & Dokumentation des Zustandes nach dem Einbau \\
+\bottomrule
+\end{tabular}
+\end{flushleft}
+
+\pagebreak
+\subsection{Qualitätsprozess Wartung TRAKSERV}
+
+Dieser Prozess soll definieren wie eine Wartung am Server ggf. durch TRAKSERV Updates für TRAK verlaufen sollen. Somit wird die Wartbarkeit des System sichergestellt während des Piloten.
+
+\vspace{5mm}
+%\begin{adjustbox}{width=\textwidth}
+\tikzset{ 
+  >=Latex, 
+  line/.style={draw,->}, 
+  anode/.style={rectangle,draw=black,fill=red!20, 
+    align=center,rounded corners,minimum height=4em,font=\strut}, 
+  bnode/.style={anode,fill=green!20,text width=5em,\ttfamily} 
+} 
+
+\begin{tikzpicture}[font=\ttfamily,
+edge from parent fork down,
+level distance=1.75cm,
+every node/.style=
+    {top color=white,
+    bottom color=green!25,
+    rectangle,rounded corners,
+    minimum height=8mm,
+    draw=blue!75,
+    very thick,
+    drop shadow,
+    align=center,
+    text depth = 0pt
+    },
+edge from parent/.style=
+    {draw=blue!50,
+    thick
+    }]
+  \path[nodes=anode,node distance=2cm] 
+    node (a1) {Ankündigung} 
+    node [right=of a1](a2){Wartung} 
+    node [right=of a2](a3){Funktionstest}
+    node [right=of a3](a4){Inbetriebnahme}
+  ; 
+  \path [every edge/.append style=line] 
+    (a1) edge (a2) 
+    (a2) edge (a3)
+    (a3) edge (a4)
+  ; 
+\end{tikzpicture}  
+%\end{adjustbox}
+  
+\paragraph{\large{Checkliste Wartung TRAKSERV}}
+\begin{flushleft}
+\begin{tabular}{lll} 
+\toprule
+\textbf{Pos} & \textbf{Prozess} & \textbf{Überprüfung}\\ 
+\midrule 
+\midrule
+1  & Ankündigung & Ankündigung an AV über eine bevorstehende Wartung mit Begründung. \\
+\midrule
+2  & Wartung & Durchführung der Wartung über ein Entwickler oder Programmierer \\
+\midrule
+3  & Funktionstest & Test der Funktion und Integration nach der Wartung \\
+\midrule
+4  & Inbetriebnahme & Vollständige Inbetriebnahme und Rückmeldung an AV\\
+\bottomrule
+\end{tabular}
+\end{flushleft}
+
+
+\section{Zeitmangement}
+\subsection{Meilensteine}
+Die Geamtdauer des Projekts beträgt nach Einschätzung 40 Wochen.\\
+\uline{Zeitangaben sind Relativ zur nach Unterschrift.}\\
+\vspace{5mm}\\
+\begin{tabular}{llr} 
+\toprule
+\textbf{\#} & \textbf{Meilenstein} & \textbf{Geschätztes Datum}\\ 
+\midrule 
+\midrule
+\textbf{M0}  & \textbf{Kick-Off} & Woche 1\\
+\midrule
+\textbf{M1}  & \textbf{EMV-Testergebnisse erhalten} & Woche 2\\ %06.02.2019
+\midrule
+\textbf{M2}  & \textbf{TRAKSERV Scale 300 Geräte abgeschlossen} & Woche 3\\ %08.02.2019
+\midrule
+\textbf{M3}  & \textbf{Einbau 20 TRAK-Geräte begutachtet} & Woche 4\\ %13.02.2019
+\midrule
+\textbf{M4}  & \textbf{Proof of Concept Start} & Woche 5\\ %22.02.2019
+\midrule
+\textbf{M5}  & \textbf{Proof of Concept Änderungen umgesetzt} & Woche 8\\ %22.03.2019
+\midrule
+\textbf{M6}  & \textbf{Review und Lesson Learned-Meeting beendet} & Woche 11\\ %05.04.2019
+\midrule
+\textbf{M7}  & \textbf{TRAKSERV Scale 723 Geräte abgeschlossen} & Woche 14\\ %19.04.2019
+\midrule
+\textbf{M8}  & \textbf{Einbau 1000 TRAK-Geräte abgeschlossen} & Woche 15\\ %02.05.2019
+\midrule
+\textbf{M9}  & \textbf{Pilot Start, Review Änderungen umgesetzt} & Woche 15\\ %03.05.2019
+\midrule
+\textbf{M10}  & \textbf{Pilot beendet, Awards vergabe \& Abschlussfeier} & Woche 40\\ %03.11.2019
+\bottomrule
+\end{tabular}
+
+
+\subsection{Zeitplan}
+\begin{adjustbox}{width=\textwidth}
+\begin{tabular}{clrrrr} 
+\toprule
+\textbf{\#}& \textbf{Ereignis} & \textbf{Aktivität} & \textbf{Dauer} & \textbf{10 \% K.} & \textbf{Gesamt}\\ 
+\midrule 
+\midrule
+%\textbf{Vorbereitung Phase} &  &  \\
+%\midrule
+\textbf{*} &\textbf{Planung} 						&-			& 20 h &  2 h&  22 h\\
+\textbf{*} &\textbf{Kommunikation} 					&-			& 95 h &  9,5 h&  104,5 h\\ %75 in PoC
+\textbf{*} &\textbf{Ausführung} 					&-			& 110 h & 11 h& 121 h\\ %80 in PoC
+\textbf{E1} &\textbf{Verträge \& Beschaffungen abgeschlossen} 		&A1		& 14  h & 2 h& 16,5 h\\
+\textbf{E2} &\textbf{Schulung TRAK für TAV abgeschlossen} 			&A2			& 16 h & 2 h& 18 h\\
+\textbf{E3} &\textbf{API von TRAKSERV zu AV angebracht} 			&A3		& 6  h &   1 h&   7 h\\
+\textbf{E4} &\textbf{Daten für AV analisiert} 						&A4		& 6 h & 1 h& 7 h\\
+\textbf{E5} &\textbf{Schulung TRAKSERV für TAV abgeschlossen} 		&A5			& 16 h & 2 h& 18 h\\
+\textbf{E6} &\textbf{Update Routinen implementiert} 				&A6		& 7 h & 1 h& 8 h\\
+\textbf{E7} &\textbf{Batterie Test beendet} 			&A7			& 9 h & 1 h& 10 h\\
+\textbf{E8} &\textbf{Neuer TRAKSERV Server eingerichtet} &A8		& 7 h & 1 h& 8 h\\
+\textbf{E9} &\textbf{Geräte Test 342 durchlaufen} &A9		& 57 h & 6 h& 63 h\\
+\textbf{E10} &\textbf{TRAKSERV Scale Test 300 durchlaufen}&A10		& 16 h & 2 h& 18 h\\
+\textbf{E11} &\textbf{Schulung TRAKSERV abgeschlossen} 		&A11			& 72 h & 8 h& 80 h\\
+\textbf{E12} &\textbf{Daten verschlüsselt \& komprimiert} 	&A12		& 8 h & 1 h& 9 h\\
+\textbf{E13} &\textbf{GPS-Karte in TRAKSERV integriert} 		&A13		& 24 h & 2,5 h& 26.5 h\\
+\textbf{E14} &\textbf{Einbau TRAK konzipiert} 			&A14		& 6 h & 1 h& 7 h\\
+\textbf{E15} &\textbf{Begutachtung Einabu} 		&A15			& 63 h & 6,5 h& 69,5 h\\
+\textbf{E16} &\textbf{Fehlerroutinen implementiert} 				&A16		& 15 h & 1,5 h& 17,5 h\\
+\textbf{E17} &\textbf{PoC Änderungen durchgeführt} 				&A17	& 160 h & 16 h& 175 h\\
+\textbf{E18} &\textbf{Support PoC beendet} 				&A18			& 30 h & 3 h& 33 h\\
+\textbf{E19} &\textbf{Code Reviews durchlaufen} 				&A19			& 45 h & 4,5 h& 49.5 h\\
+\textbf{E20} &\textbf{Reviews \& BugFix abgeschlossen} 			&A20		& 120 h & 12 h& 132 h\\
+\textbf{E21} &\textbf{Beschaffungen Pilot abgeschlossen} 		&A21		& 4 h & 0.5 h& 4,5 h\\
+\textbf{E22} &\textbf{Änderung vor Pilot durchgeführt} 			&A22		& 120 h & 12 h& 136 h\\ %Pilot
+\textbf{E23} &\textbf{Workshops für Werkstätte abgeschlossen} 	&A23		& 72 h & 7,5 h& 79,5 h\\% Pilot
+\textbf{E24} &\textbf{Geräte Test 723 durchgeführt}		&A24 		& 121 h & 12,5 h& 133,5 h\\ % Pilot
+\textbf{E25} &\textbf{System Integration abgeschlossen} 		&A25		& 360 h & 36 h& 396 h\\	% Pilot
+\textbf{E26} &\textbf{TRAKSERV Scale 723 durchgeführt} 			&A26		& 4  h & 0,5 h& 4,5 h\\
+\textbf{E27} &\textbf{Projekt Dokumentation geschrieben} 		&A27		& 20 h & 2 h& 22 h\\	%Pilot
+\textbf{E28} &\textbf{Schulung Kundendienst abgehalten} 	&A28			& 12 h & 1,5 h& 13,5 h\\	%Pilot
+\textbf{E29} &\textbf{Wartung durchgeführt} 					&A29			& 6 h & 1 h& 7 h\\
+\textbf{E30} &\textbf{Support Pilot abgeschlossen} 			&A30			& 120 h & 12 h& 132 h\\ % Pilot
+\textbf{*} &\textbf{Awards \& Abschlussfeier} 	&-			& 2  h & 0,5 h& 2,5 h\\
+\textbf{*} &\textbf{Teamentwicklung} 			&-			& 4 h & 0,5 h& 4,5 h\\
+\bottomrule
+\end{tabular}
+\end{adjustbox}
+\begin{acronym}[Bash]
+ \acro{E1,E12,E20}{Sind Ereignisse die zusammengefasst, weil sie hintereinander stattfinden }
+ \acro{*}{Ereignisse die den Prozess des Projekts durchgehend begleitend oder außerhalb sind}
+ \acro{x}{Das x im PERT-Diagramm bedeutet warte oder Zwischenzeit bis zu einem Ereignis}
+\end{acronym}
+
+
+\newgeometry{top=2cm,bottom=2cm}
+\begin{sidewaysfigure}
+%\begin{adjustbox}{width=\textwidth}
+\subsection{PERT-Diagramm}
+
+\vspace{5mm}
+\begin{adjustbox}{width=\textwidth}
+\tikzset{ 
+  >=Latex, 
+  line/.style={draw,->}, 
+  anode/.style={rectangle,draw=black,fill=red!20, 
+    align=center,rounded corners,minimum height=3em,font=\strut}, 
+  bnode/.style={anode,fill=green!20,text width=4em,\ttfamily} 
+} 
+
+\begin{tikzpicture}[font=\ttfamily,
+edge from parent fork down,
+level distance=1cm,
+every node/.style=
+    {top color=white,
+    bottom color=gray!25,
+    rectangle,rounded corners,
+    minimum height=5mm,
+    draw=black,
+    very thick,
+    drop shadow,
+    align=center,
+    text depth = 0pt
+    },
+edge from parent/.style=
+    {circle,draw=blue!75,
+    thick
+    }]
+  \path[nodes=anode,node distance=2cm] 
+    node (m0) {M0} 					%Kick-Off
+    node [right= of m0](e2){E2} 	%TRAKSERV Scale 300 Geräte abgeschlossen
+    node [below= of e2](e3){E3}
+    node [above= of e2](m1){M1}
+    node [above= of m1](e1){E1}
+    
+	node [right= of m1](e5){E5}
+	node [right= of e2](e4){E4}
+    
+    node [right= of e5](e11){E11}
+    node [right= of e4](e6){E6}
+    node [below= of e6](e8){E8}
+    node [below= of e8](e9){E9}
+    node [above= of e11](e7){E7}
+    
+    node [right= of e6](m2){M2}
+    node [right= of e8](e13){E13}
+    node [right= of e9](e12){E12}
+    
+    node [right= of m2](m3){M3}
+    node [right= of e13](e16){E16}
+    node [above= of m3](e14){E14}
+    
+    node [right= of m3](m4){M4}
+    
+    node [right= of m4](m5){M5}
+    node [below= of m5](e18){E18}
+    node [above= of m5](e19){E19}
+    
+    node [right= of m5](e20){E20}
+    
+    node [right= of e20](m6){M6}
+    
+    node [right= of m6](e24){E24}
+    node [above= of e24](e22){E22}
+    node [below= of e24](e21){E21}
+    node [below= of e21](e23){E23}
+    
+    node [right= of e24](m7){M7}
+    node [right= of e21](e25){E25}
+    
+    node [right= of e25](e29){E29}
+    
+    node [above= of m7](m8){M8}
+    
+    node [right= of m8](m9){M9}
+    
+    node [right= of m9](e27){E27}
+    node [above= of e27](e28){E28}
+    node [below= of e27](e30){E30}
+    
+    node [right= of e30](m10){M10}
+  ; 
+  \path [every edge/.append style=line] 
+    (m0) edge [draw=red] node {A2,2d} (e2)
+    (m0) edge node {A3,1d} (e3)		
+    (m0) edge node {x,1W} (m1)		
+    (m0) edge node {A1,2d} (e1)
+    
+    (e3) edge  (e2)
+    (m1) edge  (e5)
+    (e1) edge node {x,3d} (m1)
+    (e2) edge node {A4,1d} (e4)
+    (e2) edge [draw=red] node {A5,2d} (e5)
+    (e5) edge node {A7,3d} (e7)
+    
+    (e5) edge node {A8,2d} (e8)
+    (e5) edge [draw=red] node {A11,3w} (e11)
+    (e4) edge node {A9,8d} (e9)
+    (e5) edge node {A6,2d} (e6)
+    
+    (e8) edge node {A13,2d} (e13)
+    (e11) edge [draw=red] (m3)
+    (e6) edge node {A10,8d} (m2)
+    (e7) edge node {x,1d} (e14)
+    (e9) edge node {A12,2d} (e12)
+    
+    (e13) edge node {A16,4d} (e16)
+    (e12) edge node {A14,1d} (e16)
+    (m2) edge (m3)
+    (e14) edge node {x,2w} (m3)
+    (e16) edge (m4)
+    (m3) edge [draw=red] (m4)
+    
+    (m4) edge [draw=red] node {A17,4w} (m5)
+    (m4) edge node {A18,6w} (e18)
+    (m4) edge node {A19,4w} (e19)
+    
+    (e19) edge node {A20,2w} (e20)
+    (m5) edge [draw=red] node {A20,2w} (e20)
+    (e18) edge (m6)
+    (e20) edge [draw=red](m6)
+    
+	(m6) edge node {A21,1d} (e21)
+	(e21) edge node {A24,2w} (e24)
+    (m6) edge [draw=red] node {A23,2w} (e24)
+    (m6) edge node {A22,4w} (e22)
+    (m6) edge node {A23,2w} (e23)
+    
+    (e22) edge (m7)
+    (e24) edge [draw=red] node {A26,2d} (m7)
+    (e23) edge node {A25,5w} (e25)
+    (e21) edge node {A25,7w} (e25)
+    (m7) edge [draw=red] (m8)
+    (m8) edge [draw=red] (m9)
+    
+    (m9) edge node {A25,1d} (e28)
+    (m9) edge node {A27,3d} (e27)
+    (m9) edge [draw=red] node {A30,6M} (e30)
+    
+    (e25) edge node {A29,1d} (e29)
+    
+    (e29) edge node {x,5d} (m10)
+    (e30) edge [draw=red] (m10)
+    (e27) edge node {x,5d} (m10)
+    (e28) edge node {x,5M} (m10)
+    (m9) edge (e29)
+  ; 
+\end{tikzpicture}  
+\end{adjustbox}
+\end{sidewaysfigure}
+\restoregeometry
+
+
+%\newgeometry{left=3cm,bottom=3cm}
+%\begin{sidewaysfigure}
+\setcounter{page}{14}
+
+
+
+\subsection{GANTT-Diagramm}
+\begin{adjustbox}{width=\textwidth}
+\begin{tikzpicture}  
+\begin{ganttchart}[
+	vgrid,
+	hgrid,
+	y unit title=7mm,
+  	title height=1,
+  	y unit chart=7mm,
+  	bar/.append style={fill=black!10},
+	vrule/.style={very thick, red},
+	vrule label font=\bfseries,
+	Mile1/.style={milestone/.append style={fill=red}},
+	]{1}{40}
+\gantttitle{TAV}{40} \\
+\gantttitlelist{1,...,40}{1} \\
+\ganttnewline
+\ganttmilestone[Mile1]{\enspace}{0} \ganttrresource{Kick-Off}{1}
+\ganttnewline
+\ganttlresource{PM, Einkauf}{0} \ganttbar{}{1}{1} \ganttrresource{Verträge und Beschaffungen abgeschlißen PoC}{2}\\
+\ganttlresource{JD, OB, KK, RG, SK}{0}\ganttbar{}{1}{1} \ganttrresource{Schulung TRAK für TAV}{2}\\
+\ganttlresource{LP}{0}\ganttbar{}{1}{1} \ganttrresource{API von TRAKSERV zu AV}{2}\\	
+\ganttlresource{JD}{0}\ganttbar{}{1}{1} \ganttrresource{Analyse der Daten}{2}\\
+\ganttlresource{LP, OB, KK, RG, SK}{0}\ganttbar{}{1}{1} \ganttrresource{Schulung TRAKSERV für TAV}{2}\\
+\ganttmilestone[Mile1]{ \enspace}{1} \ganttrresource{EMV-Test erhalten}{2} 
+\ganttnewline
+\ganttlresource{SK}{0}\ganttbar{}{2}{2} \ganttrresource{Update Routinen}{3}\\
+\ganttlresource{RG}{0}\ganttbar{}{2}{2} \ganttrresource{Batterie Test}{3}\\
+\ganttlresource{OB, LP}{0}\ganttbar{}{2}{2} \ganttrresource{Neuer TRAKSERV Server einrichten}{3}\\
+\ganttlresource{JD}{0}\ganttbar{}{2}{3} \ganttrresource{Geräte Test 342 und Freischaltung}{4}\\
+\ganttlresource{RG}{0}\ganttbar{}{2}{3} \ganttrresource{TRAKSERV Scale Test 300 Geräte}{4}\\
+\ganttlresource{RG}{0}\ganttbar{}{2}{4} \ganttrresource{Einbau TRAK Konzeptund Begutachtung}{5}\\
+\ganttlresource{JD}{0}\ganttbar{}{2}{3} \ganttrresource{Komprimierung und Verschlüsselung der Daten}{4}\\
+\ganttlresource{KK, LP}{0}\ganttbar{}{3}{4} \ganttrresource{GPS-Karte in TRAKSERV}{5}\\
+\ganttlresource{JD, LP}{0}\ganttbar{}{4}{4} \ganttrresource{Fehlerroutinen}{5}\\
+\ganttmilestone[Mile1]{ \enspace}{4} \ganttrresource{TRAKSERV Scale Test 300}{5} 
+\ganttnewline
+\ganttmilestone[Mile1]{ \enspace}{5} \ganttrresource{Proof of Concept}{6} 
+\ganttnewline
+\ganttlresource{BO, KK}{0}\ganttbar{}{6}{10} \ganttrresource{PoC Änderungen}{11}\\
+\ganttlresource{SK}{0}\ganttbar{}{6}{10} \ganttrresource{Code Reviews}{11}\\
+\ganttlresource{OB, SK}{0}\ganttbar{}{6}{10} \ganttrresource{Support PoC}{11}\\
+\ganttlresource{KK, SK}{0}\ganttbar{}{8}{10} \ganttrresource{Reviews und BugFix}{12}\\
+\ganttmilestone[Mile1]{ \enspace}{10} \ganttrresource{Review und Lesson Learned-Meeting beendet}{11} 
+\ganttnewline
+\ganttlresource{PM}{0}\ganttbar{}{11}{11} \ganttrresource{Beschaffung SIM-Karten Pilot}{13}\\
+\ganttlresource{RG, SK}{0}\ganttbar{}{11}{12} \ganttrresource{Workshops für Werkstätte}{14}\\
+\ganttlresource{PM, RG, KK, SK}{0}\ganttbar{}{12}{13} \ganttrresource{Geräte Test 723 und Freischaltung}{14}\\
+\ganttlresource{BO, KK, SK}{0}\ganttbar{}{11}{15} \ganttrresource{Änderung vor Pilot}{16}\\
+\ganttlresource{RG}{0}\ganttbar{}{14}{15} \ganttrresource{TRAKSERV Scale 723 Geräte}{16}\\
+\ganttmilestone[Mile1]{ \enspace}{15} \ganttrresource{TRAKSERV Scale 723 Geräte abgeschlossen}{16} 
+\ganttnewline
+\ganttmilestone[Mile1]{ \enspace}{15} \ganttrresource{Einbau 1000 Geräte abgeschlossen}{16} 
+\ganttnewline
+\ganttmilestone[Mile1]{ \enspace}{15} \ganttrresource{Pilot Start, Review Änderungen umgesetz}{16} 
+\ganttnewline
+\ganttlresource{PM, OB, RG, KK, SK}{0}\ganttbar{}{12}{19} \ganttrresource{System Integration}{20}\\
+\ganttlresource{BO}{0}\ganttbar{}{20}{20} \ganttrresource{Wartung}{21}\\
+\ganttlresource{KK}{0}\ganttbar{}{20}{20} \ganttrresource{Projekt Dokumentation}{21}\\
+\ganttlresource{KK, SK}{0}\ganttbar{}{20}{20} \ganttrresource{Schulung Kundendienst}{21}\\
+\ganttlresource{OB, KK, SK}{0}\ganttbar{}{16}{40} \ganttrresource{E30}{41}\\
+\ganttmilestone[Mile1]{ \enspace}{40} \ganttrresource{M10}{41} 
+%\ganttbar[bar/.append style={fill=cyan}]{}{30}{36} \\  %cyal farbe
+
+%\ganttvrule{Kickoff}{0}
+%\ganttlink{elem1}{elem6}
+%\ganttlink{elem2}{elem6}
+%\ganttlink{elem3}{elem6}
+\end{ganttchart}
 \end{tikzpicture}
-\par}
-\section{Ressourcenplan}
-Hallo
+\end{adjustbox}
+%\end{sidewaysfigure}
+%\restoregeometry
+\clearpage
 
-\section{Personalplan}
-Hallo
-
-\subsection{Schulungen}
-Hallo
-
-\subsection{Ausschreibungen}
-Hallo
 
 \section{Beschaffung}
-Hallo
+\subsection{Bill of Materials}
+\begin{adjustbox}{width=\textwidth}
+\begin{tabular}{llrrl} 
+\toprule
+\textbf{Pos} & \textbf{Bezeichnung} & \textbf{Menge} & \textbf{Preis (\euro{})} &\textbf{Bemerkung}\\ 
+\midrule 
+\midrule
+& \textbf{Proof of Concept} &  &\\
+\midrule
+1  & TRAK Geräte & 342 & 200,00 &{\Kommentar{320 Geräte Einbau im Proof of Concept 5 Geräte für das EZ Entwicklerteam am Arbeitsplatz und 5\% Fehlerrate\linebreak}}\\
+\midrule
+2  & Sim-Karten & 325 & 3,39/Monat &{\Kommentar{325 SIM-Karte für die Proof of Concept TRAK-Geräte\linebreak}}\\
+\midrule
+3  & Server kaufen & 1 & 299,99 &{\Kommentar{Server für TRAKSERV der 1000 TRAK-Geräte skalieren kann\linebreak}}\\
+\midrule
+& \textbf{Pilot} &  &\\
+\midrule
+1  & TRAK Geräte & 723 & 200,00 &{\Kommentar{Geräte Einbau im Piloten damit 1000 TRAK Geräte funktionsfähig zum Einsatz kommen können. Es werden 723 bestellt, weil durch den Ausbau Fehlerrate von 3\% und 5\% Fehlerrate in der Produktion hinzugezählt werden.\linebreak}}\\
+\midrule
+2  & Sim-Karten & 700 & 3,39/Monat &{\Kommentar{688 SIM-Karte für den Pilot TRAK-Geräte und 12 SIM-Karten als Kontingent.\linebreak}}\\
+\midrule
+3  & EMV-Test & 1 & 10.000,00 &{\Kommentar{Test des TRAK-Gerät auf Elektromagnetische Einwirkungen und
+auf normgerechten Einsatz. \linebreak}}\\
+\bottomrule
+\end{tabular}
+\end{adjustbox}
 
 \section{Kostenplan}
-Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam
-
-\subsection{Personalkosten}
-Die Stundensätze der Löhne \& Gehälter werden anhand der Arbeitstage im Jahr 2019 berechnet. Bei EZ wird 5 Tage pro Woche gearbeitet á 8 Stunden.
+\subsection{Proof of Concept}
+\subsubsection{Personalkosten Proof of Concept}
+Die Stundensätze der Löhne \& Gehälter werden anhand der 250 Arbeitstage im Jahr 2019 berechnet. Bei EZ wird 5 Tage pro Woche gearbeitet á 8 Stunden.
 \hfill \vspace{5mm}
 \begin{tabular}{lrrrr} 
 \toprule
 \textbf{Name} & \textbf{Jahreslohn (\euro{})} & \textbf{Stundenlohn (\euro{})} & \textbf{Stunden (h)} & \textbf{Lohnkosten (\euro{})}\\ 
 \midrule 
-Milazzo, Domenico  & 00000 & 00000 & 00000 & 00000\\
-John, Daniel  & 00000 & 00000 & 00000 & 00000\\
-Bloomberg, Olaf  & 00000 & 00000 & 00000 & 00000\\
-Keit, Kerstin  & 00000 & 00000 & 00000 & 00000\\
-Rusch, Gerorg & 00000 & 00000 & 00000 & 00000\\
-Scoda, Kaya & 00000 & 00000 & 00000 & 00000\\
-Unbekannt & 00000 & 00000 & 00000 & 00000\\
+Milazzo, Domenico  & 105.000 & 52.50 & 257 & 13.492,5\\
+Leaver, Peter  & 85.000 & 42.50 & 158,5 & 6.736,25\\
+John, Daniel  & 85.000 & 42.50 & 138,5 & 5.886,25\\
+Bloomberg, Olaf  & 55.000 & 27.50 & 198 & 5.445,00\\
+Keit, Kerstin  & 55.000 & 27.50 & 252 & 6.930,00\\
+Rusch, Gerorg & 65.000 & 32.50 & 145 & 4.712,50\\
+Scoda, Kaya & 85.000 & 42.50 & 197 & 8.372,50\\
+%Unbekannt & 45.000 & 22.50 & 00000 & 00000\\
 \midrule 
 \midrule 
-Gesamtkosten & 00000 & 00000 & 00000 & 00000\\ 
+Gesamtkosten &  &  &  & 51.575,00\\ 
 \bottomrule
 \end{tabular}
 
-\subsection{Beschaffungskosten}
-Hallo
+\subsubsection{Beschaffungskosten Proof of Concept}
+\begin{equation}
+\begin{split}
+\textcolor{red}{B_{PoC}} &= (B_{TRAK} \cdot A_{TRAK}) + (B_{SIM} \cdot A_{SIM})
++ B_{Server} \\\
+&= (200 \text{\euro} \cdot 342) + (3,39 \text{\euro}/Monat \cdot 3 Monate \cdot 325) + 299,99 \text{\euro}  \\\
+&= \underline{\underline{\textcolor{red}{72.005,24\text{\euro}}}}
+\end{split}
+\end{equation}
 
-\subsection{Risikoplan}
-Hallo
 
-\subsubsection{Annahmen}
-Hallo
+\subsubsection{Risikokosten Proof of Concept}
+\begin{equation}
+\begin{split}
+\textcolor{red}{Risiko_{nichtPilot}} &= Schaden_{Pilot} \cdot P_{Pilot} \\\
+&= 72.005,24 \text{\euro} \cdot 0,35 \\\
+&= \underline{\underline{\textcolor{red}{25.201,834\text{\euro}}}}
+\end{split}
+\end{equation}
+\begin{equation}
+\begin{split}
+\textcolor{red}{Risiko_{Krankheit}} &= Schaden_{Krankheit/pro Tag} \cdot A_{Tage} \cdot P_{Krankheit} \\\
+&= 1.337,50\text{\euro}/Tag \cdot 5 Tage \cdot 0,35\\\
+&= \underline{\underline{\textcolor{red}{2.340,63\text{\euro}}}}
+\end{split}
+\end{equation}
+\begin{equation}
+\begin{split}
+\textcolor{red}{Risiko_{PoC}} &= Risiko_{Pilot} + Risiko_{Krankheit} \\\
+&= 25.201,834\text{\euro} + 2.340,63\text{\euro} \\\
+&= \underline{\underline{\textcolor{red}{27.542,47\text{\euro}}}}
+\end{split}
+\end{equation}
 
-\subsubsection{Risikomatrix}
-Hallo
+\subsubsection{Gesamtkosten Proof of Concept}%Beachte Versand der Geräte + Personalkosten
+\begin{equation}
+\begin{split}
+\textcolor{red}{Gesamt_{PoC}} &= ((B_{PoC} + Risiko_{PoC} + Person_{PoC} + Versand_{TRAK-PoC} + Einbau_{PoC}  \\\ 
+&+ Ausbau_{PoC} + Teamentwicklung) \cdot Kontingent) \cdot Gewinn_{PoC}\\\
+&= ((72.005,24\text{\euro} + 27.542,47\text{\euro} + 51.575,00\text{\euro}) + (300 \cdot 16,70\text{\euro}) + (90\text{\euro} \cdot 20 ) + \\\
+&+ (90\text{\euro} \cdot 20) + 5.000 \text{\euro} ) \cdot 1,10)\cdot 1,05\\\
+&= ((72.005,24\text{\euro} + 27.542,47\text{\euro} + 51.575,00\text{\euro} + 5010\text{\euro} 
++ 1.800,00\text{\euro}\\\  
+&+ 1.800,00\text{\euro} + 5.000 \text{\euro} ) \cdot 1,10)\cdot 1,05\\\
+&= \underline{\underline{\textcolor{red}{190.266,28\text{\euro}}}}
+\end{split}
+\end{equation}
 
-\subsubsection{Risikoanalyse}
-Hallo
+\subsection{Pilot}
+\subsubsection{Personalkosten Pilot}
+Die Stundensätze der Löhne \& Gehälter werden anhand der 250 Arbeitstage im Jahr 2019 berechnet. Bei EZ wird 5 Tage pro Woche gearbeitet á 8 Stunden.
+\hfill \vspace{5mm}
+\begin{tabular}{lrrrr} 
+\toprule
+\textbf{Name} & \textbf{Jahreslohn (\euro{})} & \textbf{Stundenlohn (\euro{})} & \textbf{Stunden (h)} & \textbf{Lohnkosten (\euro{})}\\ 
+\midrule 
+Milazzo, Domenico  & 105.000 & 52.50 & 164 & 8.610,00\\
+Bloomberg, Olaf  & 55.000 & 27.50 & 426 & 11.715,00\\
+Keit, Kerstin  & 55.000 & 27.50 & 316 & 8.690,00\\
+Rusch, Gerorg & 65.000 & 32.50 & 174 & 5.655,00\\
+Scoda, Kaya & 85.000 & 42.50 & 404,5 & 17.191,25\\
+%Unbekannt & 45.000 & 22.50 & 00000 & 00000\\
+\midrule 
+\midrule 
+Gesamtkosten &  &  &  & 51.871,25\\ 
+\bottomrule
+\end{tabular}
 
-\subsubsection{Risikoreaktionsanalyse}
-Hallo
+\subsubsection{Beschaffungskosten Pilot}
+\begin{equation}
+\begin{split}
+\textcolor{red}{B_{Pilot}} &= (B_{TRAK} \cdot A_{TRAK}) + (B_{SIM} \cdot A_{SIM}) + EMV_{Test}\\\
+&= (200 \text{\euro} \cdot 723) + (3,39 \text{\euro}/Monat \cdot 7Monate \cdot 1000) + 10.000,00 \text{\euro} \\\
+&= \underline{\underline{\textcolor{red}{178.300,00\text{\euro}}}}
+\end{split}
+\end{equation}
 
-\subsubsection{Risikokosten}
-Hallo
+\subsubsection{Risikokosten Pilot}
+\begin{equation}
+\begin{split}
+\textcolor{red}{Risiko_{EMV}} &= Schaden_{EMV} \cdot P_{EMV}\\\
+&= 14.500,00\text{\euro} \cdot 0,8 \\\
+&= \underline{\underline{\textcolor{red}{11600,00\text{\euro}}}}
+\end{split}
+\end{equation}
+\begin{equation}
+\begin{split}
+\textcolor{red}{Risiko_{Krankheit}} &= Schaden_{Krankheit/pro Tag} \cdot A_{Tage} \cdot P_{Krankheit} \\\
+&= 1.337,50\text{\euro}/Tag \cdot 12 Tage \cdot 0,35\\\
+&= \underline{\underline{\textcolor{red}{5.617,50\text{\euro}}}}
+\end{split}
+\end{equation}
+\begin{equation}
+\begin{split}
+\textcolor{red}{Risiko_{Lieferverzug}} &= Schaden_{Lieferverzug} \cdot P_{Lieferverzug} \\\
+&= 12.600,00\text{\euro} \cdot 0,12 \\\
+&= \underline{\underline{\textcolor{red}{1512,00\text{\euro}}}}
+\end{split}
+\end{equation}
+\begin{equation}
+\begin{split}
+\textcolor{red}{Risiko_{Pilot}} &= Risiko_{EMV} + Risiko_{Krankheit} + Risiko_{Lieferverzug} \\\
+&= 11600,00\text{\euro} + 5.617,50\text{\euro} + 1512,00\text{\euro} \\\
+&= \underline{\underline{\textcolor{red}{18.729,50\text{\euro}}}}
+\end{split}
+\end{equation}
 
-\newpage
+\subsubsection{Gesamtkosten Pilot} %Beachte Versand der Geräte + Personalkosten
+\begin{equation}
+\begin{split}
+\textcolor{red}{Gesamt_{Pilot}} &= ((B_{Pilot} + Risiko_{Pilot} + Person_{Pilot} + Versand_{TRAK-Pilot} + Einbau_{Pilot}\\\
++& Awards) \cdot Kontingent) \cdot Gewinn_{Pilot} \\\
+&= ((178.300,00\text{\euro} + 18.729,50\text{\euro} + 51.871,25\text{\euro} + (700 \cdot 16.70\text{\euro}) + (1000 \cdot 90\text{\euro})\\\
+&+ 4.000,00\text{\euro}) \cdot 1,10 )\cdot 1,15\\\
+&= ((178.300,00\text{\euro} + 18.729,50\text{\euro} + 51.871,25\text{\euro} + 11.690,00\text{\euro} + 90.000,00\text{\euro}\\\
++& 4.000,00\text{\euro}) \cdot 1,10) \cdot 1,15\\\
+&= \underline{\underline{\textcolor{red}{448.557,30\text{\euro}}}}
+\end{split}
+\end{equation}
+
+\subsection{Gesamtkosten TAV}
+\begin{align}
+\begin{split}
+\textcolor{red}{Gesamtkosten_{TAV}} &= Gesamtkosten_{PoC} + Gesamtkosten_{Pilot}\\\
+&= 190.266,28\text{\euro} + 448.557,30\text{\euro} \\\
+&= \underline{\underline{\textcolor{red}{638.823,58\text{\euro}}}}
+\end{split}
+\end{align}
+
+\begin{flushright}
+\begin{tabular}{ll} 
+\toprule
+\textbf{Beschreibung} & \textbf{Betrag (\euro{})}\\
+\midrule
+\textbf{Nettobetrag}  & 638.823,58 \\
+\textbf{zuzügl. USt. 19\%}  & 121.376,48 \\
+\midrule
+\rowcolor{pastelred}
+\textbf{Rechnungsbetrag}  & 760.200,06 \\
+\bottomrule
+\end{tabular}
+\end{flushright}
 
 \section{Kommunikationsplan}
+\begin{tabular}{l | l l l }
+\toprule
+\textbf{Name} & \textbf{Email} & \textbf{Telefon} & \textbf{Zuständigkeit} \\
+\midrule
+\midrule
+\textbf{Gründer, Gunar} & {\Umbruch{g.gruender@ez.de}} & {\Umbruch{00497458/4711-001}} & {\Umbruch{Management EZ}} \\
+\midrule
+\textbf{Uris, Katt} & {\Umbruch{k.uris@av.ch}} & {\Umbruch{0041441174-100}} & {\Umbruch{Projektleiter AV}} \\
+\midrule
+\textbf{Milazzo, Domenico} & {\Umbruch{d.milazzo@ez.de}} & {\Umbruch{00497458/4711-120}} & {\Umbruch{Projektleiter TAV}} \\
+\midrule
+\textbf{Peter, Leaver} & {\Umbruch{p.leaver@ez.de}} & {\Umbruch{00497458/4711-150}} & {\Umbruch{Entwickler}} \\
+\midrule
+\textbf{Bloomberg, Olaf} & {\Umbruch{o.bloomberg@ez.de}} & {\Umbruch{00497458/4711-162}} & {\Umbruch{Entwickler}} \\
+\midrule
+\textbf{John, Daniel} & {\Umbruch{d.john@ez.de}} & {\Umbruch{00497458/4711-173}} &
+{\Umbruch{Entwickler}} \\
+\midrule
+\textbf{Keit, Kerstin} & {\Umbruch{k.keito@ez.de}} & {\Umbruch{00497458/4711-166}} &
+{\Umbruch{Testing}} \\
+\midrule
+\textbf{Rusch, Georg} & {\Umbruch{g.rusch@ez.de}} & {\Umbruch{00497458/4711-091}} &
+{\Umbruch{Hardware}} \\
+\midrule
+\textbf{Scoda, Kaya} & {\Umbruch{k.scoda@ez.de}} & {\Umbruch{00497458/4711-221}} &
+{\Umbruch{Testing}} \\
+\bottomrule
+\end{tabular}
+
+
+
 \subsection{Proof of Concept-Meeting}
 \begin{tabular}{ll} 
 \toprule
@@ -405,12 +1579,14 @@ Hallo
 \midrule 
 \textbf{Intervall}  & einmalig\\
 \midrule 
-\textbf{Ablauf}  & {\Absatz{Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et \linebreak}}\\
+\textbf{Medium}  & Direktes Treffen\\
+\midrule 
+\textbf{Ablauf}  & {\Absatz{Hier in diesem Treffen wird der Proof of Concept und das Angebot an AV 
+übergeben. \linebreak}}\\
 \bottomrule
 \end{tabular}
-\vspace{5mm}
 
-\subsection{Contract-Meeting}
+\subsection{Review und Lessons Learned-Meeting}
 \begin{tabular}{ll} 
 \toprule
 \textbf{Leiter} & Domenico Milazzo\\
@@ -418,10 +1594,12 @@ Hallo
 \midrule 
 \textbf{Intervall}  & einmalig\\
 \midrule 
-\textbf{Ablauf}  & {\Absatz{Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et \linebreak}}\\
+\textbf{Medium}  & Direktes Treffen\\
+\midrule 
+\textbf{Ablauf}  & {\Absatz{Dieses Meeting soll nach dem Proof of Concept stattfindet. In diesem 
+Treffen wird EZ informiert ob sie den Pilot bekommen und welche Änderungen anstehen.\linebreak}}\\
 \bottomrule
 \end{tabular}
-\vspace{5mm}
 
 \subsection{Stakeholder-Meeting}
 \begin{tabular}{ll} 
@@ -431,10 +1609,11 @@ Hallo
 \midrule 
 \textbf{Intervall}  & 4 Wochen Rhythmus\\
 \midrule 
-\textbf{Ablauf}  & {\Absatz{Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et \linebreak}}\\
+\textbf{Medium}  & Videotelefonie über Skype\\
+\midrule 
+\textbf{Ablauf}  & {\Absatz{Die Stakeholder-Meetings sind dazu da um den Projektleiter von AV über den Stand der Dinge zu informieren und um Änderungen schon frühzeitig umzusetzen falls erwünscht. \linebreak}}\\
 \bottomrule
 \end{tabular}
-\vspace{5mm}
 
 \subsection{Status-Meeting}
 \begin{tabular}{ll} 
@@ -444,9 +1623,56 @@ Hallo
 \midrule 
 \textbf{Intervall}  & Wöchentlicher Rhythmus\\
 \midrule 
-\textbf{Ablauf}  & {\Absatz{Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et \linebreak}}\\
+\textbf{Medium}  & Direktes Treffen\\
+\midrule 
+\textbf{Ablauf}  & {\Absatz{Diese Satus-Meeting sollen abgehalten um frühzeitige Unstimmigkeiten oder Probleme zu erkennen und um weiteren Verlauf der Aktivität zu besprechen. \linebreak}}\\
 \bottomrule
 \end{tabular}
+
+
+\subsection{Organigram}
+{
+\centering
+%\begin{adjustbox}{width=\textwidth}
+\begin{tikzpicture}[font=\ttfamily,
+edge from parent fork down,
+level distance=1.75cm,
+every node/.style=
+    {top color=white,
+    bottom color=blue!25,
+    rectangle,rounded corners,
+    minimum height=8mm,
+    draw=black,
+    very thick,
+    drop shadow,
+    align=center,
+    text depth = 0pt
+    },
+edge from parent/.style=
+    {draw=blue!50,
+    thick
+    }]
+\Tree
+[.{TAV}
+	[.{\Umbruch{PM Milazzo, Domenico \linebreak}}
+        [.{Team EZ}
+            [.{Entwicklung}  [.{\Umbruch{John, Daniel \linebreak}} 
+             				 [.{\Umbruch{Bloomberg, Olaf \linebreak}} ] ] ]
+            [.{Testing}  [.{\Umbruch{Keit, Kerstin \linebreak}} 
+            			 [.{\Umbruch{Scoda, Kaya \linebreak}} ]	]									]
+            [.{Hardware}  [.{\Umbruch{Rusch, Gerorg \linebreak}} ] ]
+            %[.{Aufgabe XXX} [.{\Umbruch{Unbekannt \linebreak}} ] ] 
+            ]        
+    	]
+    	[.{AV}
+            [.{Uris, Katt} ] ]
+	]
+]
+\end{tikzpicture}
+%\end{adjustbox}
+\par
+}
+
 
 \clearpage
 \newgeometry{left=3cm,bottom=3cm}
@@ -460,18 +1686,18 @@ Hallo
 \begin{center}
 \begin{tabular}{ | p{5cm} | p{7cm} | p{1.5cm} | p{7cm} |}
     \hline
-    \textbf{Question} & \textbf{Status} & \textbf{Raiting} & \textbf{Comment} \\ \hline
+    \textbf{Question} & \textbf{Status} & \textbf{Ranking} & \textbf{Comment} \\ \hline
     Stakeholder are commited& & &\\[8ex] \hline
     Work \& Schedule are predictable? & & &\\[8ex] \hline
     Scope is realistic & & &\\[8ex] \hline
     Risks? & & &\\[8ex] \hline
     Problems that have arisen? & & &\\[8ex] \hline
-    Achievements since last reporting & & &\\[8ex] \hline
+    Achievements since next reporting? & & &\\[8ex] \hline
 \end{tabular}
 \end{center}
 \begin{tabular}{lr} 
 \toprule
-\textbf{Raiting}\\  
+\textbf{Ranking}\\  
 \midrule 
 \textbf{Symbol} & \textbf{Definition}\\ 
 \midrule 
